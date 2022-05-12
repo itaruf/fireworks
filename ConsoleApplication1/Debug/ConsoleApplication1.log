@@ -1,11 +1,20 @@
-﻿  GenerateurParticule.cpp
-C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(54,153): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
-C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(54,132): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+﻿  ConsoleApplication1.cpp
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\ConsoleApplication1.cpp(115,6): warning C4102: 'exit2' : étiquette non référencée
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\ConsoleApplication1.cpp(118,5): warning C4102: 'exit' : étiquette non référencée
+  Font.cpp
+  GenerateurParticule.cpp
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(56,153): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(56,132): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+  Particule.cpp
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\Particule.cpp(84,21): warning C4305: '*=' : troncation de 'double' à 'float'
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\Particule.cpp(100,56): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\Particule.cpp(100,42): warning C4244: 'argument' : conversion de 'float' en 'int', perte possible de données
   Sprite.cpp
 C:\Users\admin\Documents\fireworks\ConsoleApplication1\Sprite.cpp(17,32): warning C4150: suppression de pointeur vers type incomplet 'SDL_Texture' ; aucun destructeur appelé
 C:\Users\admin\Documents\fireworks\SDL\SDL2-2.0.12\include\SDL_render.h(137): message : voir la déclaration de 'SDL_Texture'
 C:\Users\admin\Documents\fireworks\ConsoleApplication1\Sprite.cpp(28,24): warning C4150: suppression de pointeur vers type incomplet 'SDL_Texture' ; aucun destructeur appelé
 C:\Users\admin\Documents\fireworks\SDL\SDL2-2.0.12\include\SDL_render.h(137): message : voir la déclaration de 'SDL_Texture'
+  Vector.cpp
   Génération de code en cours...
 LINK : warning LNK4075: ' /INCREMENTAL' ignoré à cause de la spécification '/PROFILE'
 ConsoleApplication1.obj : warning LNK4075: ' /EDITANDCONTINUE' ignoré à cause de la spécification '/OPT:REF'

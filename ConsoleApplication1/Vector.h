@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef VECTOR_H
+#define VECTOR_H
+
 struct Vector
 {
 	float x;
@@ -17,3 +21,4 @@ struct Vector
 	}
 };
 
+#endif VECTOR_H

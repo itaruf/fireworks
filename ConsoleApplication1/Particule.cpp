@@ -39,7 +39,7 @@ Particule& Particule::operator=(Particule*&& other) noexcept
 {
 	std::cout << "Particule Move Constructor Assignement called" << std::endl;
 
-	if (this != other)
+	/*if (this != other)
 	{
 		delete sprite;
 		delete _force;
@@ -53,7 +53,7 @@ Particule& Particule::operator=(Particule*&& other) noexcept
 		this->taille = other->taille;
 
 		other->_position = nullptr;
-	}
+	}*/
 
 	return *this;
 }

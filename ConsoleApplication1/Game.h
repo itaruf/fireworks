@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef GAME_H
+#define GAME_H
+
 #include <SDL_render.h>
 #include "GenerateurParticule.h"
 #include <string>
@@ -35,3 +39,4 @@ public:
 	void CreerGenerateurParticule(int posX, int posY);
 };
 
+#endif GAME_H

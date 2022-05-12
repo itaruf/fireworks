@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef FONT_H
+#define FONT_H
+
 #include <SDL_ttf.h>
 #include <string>
 class Font
@@ -16,3 +20,4 @@ public:
 
 };
 
+#endif FONT_H

@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef SPRITE_H
+#define SPRITE_H
+
 #include <string>
 #include <SDL_surface.h>
 #include <SDL_render.h>
@@ -25,3 +29,5 @@ public:
 	void SetSprite(SDL_Texture* sprite);
 
 };
+
+#endif SPRITE_H

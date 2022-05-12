@@ -51,7 +51,10 @@ void GenerateurParticule::AjouterParticule(int index)
 	int taille{ _tailleMin };
 	if (_tailleMin != _tailleMax)
 		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
+
+	//auto tmp = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
 	_liste[index] = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
+	//tmp = nullptr;
 	_nbParticulesRestantes--;
 }
 

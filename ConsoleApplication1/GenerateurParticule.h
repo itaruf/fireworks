@@ -1,5 +1,8 @@
 #pragma once
 
+#ifndef GENERATEUR_PARTICULE_H
+#define GENERATEUR_PARTICULE_H
+
 #include "Particule.h"
 #include "Vector.h"
 #include <vector>
@@ -39,3 +42,4 @@ public:
 
 };
 
+#endif GENERATEUR_PARTICULE_H

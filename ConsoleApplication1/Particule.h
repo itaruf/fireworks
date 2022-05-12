@@ -1,4 +1,8 @@
 #pragma once
+
+#ifndef PARTICULE_H
+#define PARTICULE_H
+
 #include "Vector.h"
 #include "Sprite.h"
 
@@ -28,3 +32,4 @@ public:
 	bool EstVivante();
 };
 
+#endif PARTICULE_H
