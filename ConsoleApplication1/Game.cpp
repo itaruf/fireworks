@@ -6,7 +6,9 @@
 #include <time.h>
 #include "GenerateurParticule.h"
 
-Game::~Game() = default;
+Game::~Game()
+{
+}
 
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer * screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ true }, _screenRenderer{ screenRenderer }
 {
@@ -132,4 +134,5 @@ void Game::CreerGenerateurParticule(int posX, int posY)
     Vector* position{ new Vector(posX, posY) };
     auto generateur{ new GenerateurParticule(_screenRenderer, rand() % 20, 20 + rand() % 80, 500 + rand() % 2500, "particle" + std::to_string(_modele), _couleur, rand() % 5, rand() % 15, position, 16, 64, 100 + rand() % 500, rand() % 90) };
     _generateurs.emplace_back(generateur);
+    position = nullptr;
 }

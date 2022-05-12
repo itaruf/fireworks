@@ -27,6 +27,11 @@ Particule::Particule(SDL_Renderer* renderer, std::string _modele, std::string _c
 		SDL_FreeSurface(loadedSurface);
 	}
 	sprite = new Sprite(spriteImage);
+	spriteImage = nullptr;
+
+	/*sprite->SetSprite(spriteImage);*/
+
+	/*std::cout << spriteImage << std::endl;*/
 }
 
 // Move assignment constructor
@@ -81,7 +86,7 @@ void Particule::Update(int deltaTime)
 	_position->x = newPosition->x;
 	_position->y = newPosition->y;
 
-	delete newPosition;
+	newPosition = nullptr;
 }
 
 void Particule::Render(SDL_Renderer* screenRenderer)

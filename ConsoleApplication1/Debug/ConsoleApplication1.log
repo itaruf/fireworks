@@ -2,7 +2,9 @@
 C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(54,153): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
 C:\Users\admin\Documents\fireworks\ConsoleApplication1\GenerateurParticule.cpp(54,132): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
   Sprite.cpp
-C:\Users\admin\Documents\fireworks\ConsoleApplication1\Sprite.cpp(15,32): warning C4150: suppression de pointeur vers type incomplet 'SDL_Texture' ; aucun destructeur appelé
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\Sprite.cpp(17,32): warning C4150: suppression de pointeur vers type incomplet 'SDL_Texture' ; aucun destructeur appelé
+C:\Users\admin\Documents\fireworks\SDL\SDL2-2.0.12\include\SDL_render.h(137): message : voir la déclaration de 'SDL_Texture'
+C:\Users\admin\Documents\fireworks\ConsoleApplication1\Sprite.cpp(28,24): warning C4150: suppression de pointeur vers type incomplet 'SDL_Texture' ; aucun destructeur appelé
 C:\Users\admin\Documents\fireworks\SDL\SDL2-2.0.12\include\SDL_render.h(137): message : voir la déclaration de 'SDL_Texture'
   Génération de code en cours...
 LINK : warning LNK4075: ' /INCREMENTAL' ignoré à cause de la spécification '/PROFILE'

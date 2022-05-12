@@ -103,6 +103,8 @@ int main(int argc, char* argv[])
 			SDL_Delay(30);
 		}
 
+		game->Release();
+
 		SDL_DestroyTexture(fontTexture);
 		delete game;
 		delete font;

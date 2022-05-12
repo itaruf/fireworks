@@ -4,6 +4,8 @@
 
 Sprite::Sprite(SDL_Texture* spriteImage): _spriteImage(spriteImage)
 {
+    /*std::cout << "DEFAULT CONSTRUCTOR CALLED" << std::endl;*/
+    spriteImage = nullptr;
     /*std::cout << std::addressof(spriteImage) << std::endl;
     std::cout << std::addressof(_spriteImage) << std::endl;*/
 }
@@ -15,6 +17,22 @@ Sprite::Sprite(Sprite*&& sprite) noexcept
     delete sprite->_spriteImage;
 }
 
+
+Sprite& Sprite::operator=(Sprite&& other) noexcept
+{
+    std::cout << "SPRITE MOVE ASSIGMENT OPERATOR CALLED" << std::endl;
+
+    if (this == &other)
+        return *this;
+
+    delete _spriteImage;
+
+    _spriteImage = other._spriteImage;
+    other._spriteImage = nullptr;
+
+    return *this;
+
+}
 Sprite::~Sprite()
 {
      SDL_DestroyTexture(_spriteImage);
@@ -51,4 +69,22 @@ int Sprite::GetHeight() const
     int width, height;
     SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
     return height;
+}
+
+SDL_Texture* Sprite::GetSprite()
+{
+    return _spriteImage;
+}
+
+void Sprite::SetSprite(SDL_Texture* sprite)
+{
+    _spriteImage = sprite;
+    sprite = nullptr;
+    /*if (_spriteImage)
+        delete _spriteImage;
+    else 
+    {
+        
+    }
+    sprite = nullptr;*/
 }

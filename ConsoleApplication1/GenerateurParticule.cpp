@@ -82,7 +82,7 @@ int GenerateurParticule::GetNbParticulesActives()
 	int nb = 0;
 	for (const auto& particule : _liste)
 		if (particule)
-			nb+= 1;
+			nb++;
 
 	return nb;
 }
