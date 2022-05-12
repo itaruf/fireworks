@@ -1,0 +1,6 @@
+﻿  GenerateurParticule.cpp
+C:\Users\admin\Downloads\fireworks2\fireworks\ConsoleApplication1\GenerateurParticule.cpp(68,63): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+C:\Users\admin\Downloads\fireworks2\fireworks\ConsoleApplication1\GenerateurParticule.cpp(68,42): warning C4244: 'argument' : conversion de 'double' en 'float', perte possible de données
+LINK : warning LNK4075: ' /INCREMENTAL' ignoré à cause de la spécification '/PROFILE'
+ConsoleApplication1.obj : warning LNK4075: ' /EDITANDCONTINUE' ignoré à cause de la spécification '/OPT:REF'
+  ConsoleApplication1.vcxproj -> C:\Users\admin\Downloads\fireworks2\fireworks\Debug\fireworks.exe
