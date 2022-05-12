@@ -6,8 +6,8 @@ Particule::Particule(SDL_Renderer* renderer, std::string _modele, std::string _c
 {
 	this->vie = vie * 1000;
 	this->vieActuelle = 0;
-	this->_position = std::move(_position);
-	this->_force = std::move(_force);
+	this->_position = _position;
+	this->_force = _force;
 	this->taille = taille;
 	//Load image at specified path
 	SDL_Texture* spriteImage = nullptr;
@@ -19,26 +19,16 @@ Particule::Particule(SDL_Renderer* renderer, std::string _modele, std::string _c
 	}
 	else
 	{
-		if (loadedSurface == NULL) 
-		{
-			SDL_FreeSurface(loadedSurface);
-			return;
-		}
 		//Create texture from surface pixels
 		spriteImage = SDL_CreateTextureFromSurface(renderer, loadedSurface);
 		if (spriteImage == NULL)
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
 		}
-
-		else 
-		{
-			sprite = new Sprite(spriteImage);
-		}
 		//Get rid of old loaded surface
 		SDL_FreeSurface(loadedSurface);
 	}
-
+	sprite = new Sprite(spriteImage);
 }
 
 Particule::~Particule()
@@ -51,6 +41,9 @@ Particule::~Particule()
 
 void Particule::Update(int deltaTime)
 {
+	if (!_position)
+		return;
+
 	vieActuelle = vieActuelle + deltaTime;
 	Vector* newPosition = new Vector();
 	newPosition->x = _position->x + _force->x * deltaTime / 1000;
@@ -71,11 +64,13 @@ void Particule::Update(int deltaTime)
 
 void Particule::Render(SDL_Renderer* screenRenderer)
 {
+	if (!screenRenderer)
+		return;
+
 	unsigned char alpha = 0;
 	if (vie > vieActuelle)
 		alpha = (255 * (vie - vieActuelle)) / vie;
 	sprite->Render(screenRenderer, _position->x, _position->y, taille, taille, alpha);
-	/*SDL_DestroyRenderer(screenRenderer);*/
 }
 
 bool Particule::EstVivante()

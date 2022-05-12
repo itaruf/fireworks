@@ -1,16 +1,16 @@
 #include "GenerateurParticule.h"
 #include <iostream>
+#include <iterator>
 
 GenerateurParticule::~GenerateurParticule()
 {
-	std::cout << "GeneratorParticule Destructor Called" << std::endl;
+	std::cout << "GenerateurParticule Destructor Called" << std::endl;
 
 	for (int i = 0; i < _nbParticulesMax; i++)
 	{
-		delete _liste[i];
+		delete _liste[i];    
 	}
 	delete _position;
-	SDL_DestroyRenderer(_screenRenderer);
 }
 
 void GenerateurParticule::Init(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, Vector* position, int tailleMin, int tailleMax, int force, int angleMax)
@@ -28,16 +28,19 @@ void GenerateurParticule::Init(SDL_Renderer* screenRenderer, int nbParticulesDeb
 	this->_force = force;
 	this->_angleMax = angleMax;
 
-	_liste = new Particule * [_nbParticulesMax];
+	_liste.reserve(_nbParticulesMax);
+
 	for (int i = 0; i < _nbParticulesMax; i++)
 	{
-		_liste[i] = nullptr;
+		_liste.emplace_back(nullptr);
 	}
+
+	/*std::cout << _nbParticulesMax << std::endl;
+	std::cout << _liste.capacity() << std::endl;*/
 
 	for (int i = 0; i < nbParticulesDebut; i++)
 	{
-		AjouterParticule();
-		_nbParticulesRestantes--;
+		AjouterParticule(i);
 	}
 }
 
@@ -48,55 +51,46 @@ bool GenerateurParticule::EstActif()
 	return false;
 }
 
-void GenerateurParticule::AjouterParticule()
+void GenerateurParticule::AjouterParticule(int index)
 {
-	for (int i = 0; i < _nbParticulesMax; i++)
-	{
-		if (_liste[i] == nullptr)
-		{
-			int angle = 0;
-			if (_angleMax != 0)
-				angle = rand() % _angleMax;
-			if (rand() % 2 == 1)
-				angle = -angle;
-			int vie = _vieMin;
-			if (_vieMin != _vieMax)
-				vie = _vieMin + rand() % (_vieMax - _vieMin);
-			int taille = _tailleMin;
-			if (_tailleMin != _tailleMax)
-				taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
-			Vector* forceVec = new Vector(-_force * sin(angle), _force * cos(angle));
-			Vector* position = new Vector(_position->x, _position->y);
-			_liste[i] = new Particule(_screenRenderer, _modele, _couleur, vie, position, forceVec, taille);
+	int angle = 0;
+	if (_angleMax != 0)
+		angle = rand() % _angleMax;
+	if (rand() % 2 == 1)
+		angle = -angle;
+	int vie = _vieMin;
+	if (_vieMin != _vieMax)
+		vie = _vieMin + rand() % (_vieMax - _vieMin);
+	int taille = _tailleMin;
+	if (_tailleMin != _tailleMax)
+		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
+	Vector* forceVec = new Vector(-_force * sin(angle), _force * cos(angle));
+	Vector* position = new Vector(_position->x, _position->y);
 
-			return;
-		}
-	}
+	_liste[index] = new Particule(_screenRenderer, _modele, _couleur, vie, position, forceVec, taille);
+	_nbParticulesRestantes--;
 }
 
 void GenerateurParticule::Update(int deltaTime)
 {
 	for (int i = 0; i < _nbParticulesMax; i++)
 	{
-		if (_liste[i] != nullptr)
+		if (_liste[i])
 		{
 			_liste[i]->Update(deltaTime);
 			if (_liste[i]->EstVivante() == false)
 			{
 				delete _liste[i];
-				for (int j = i; j < _nbParticulesMax - 1; j++)
-				{
-					_liste[j] = _liste[j + 1];
-				}
-				_liste[_nbParticulesMax - 1] = nullptr;
+				if (GetNbParticulesActives() < _nbParticulesMax && EstActif())
+					AjouterParticule(i);
+				
 			}
 		}
 	}
-	if (GetNbParticulesActives() < _nbParticulesMax && EstActif())
-	{
-		AjouterParticule();
-		_nbParticulesRestantes--;
-	}
+
+	/*std::cout << _nbParticulesMax << std::endl;*/
+	/*std::cout << _liste.size() << std::endl;*/
+	/*std::cout << _nbParticulesRestantes << std::endl;*/
 }
 
 int GenerateurParticule::GetNbParticulesActives()
@@ -104,7 +98,7 @@ int GenerateurParticule::GetNbParticulesActives()
 	int nb = 0;
 	for (int i = 0; i < _nbParticulesMax; i++)
 	{
-		if (_liste[i] != nullptr)
+		if (_liste[i])
 		{
 			nb = nb + 1;
 		}
@@ -116,9 +110,14 @@ void GenerateurParticule::Render(SDL_Renderer* screenRenderer)
 {
 	for (int i = 0; i < _nbParticulesMax; i++)
 	{
-		if (_liste[i] != nullptr)
+		if (_liste[i])
 		{
 			_liste[i]->Render(screenRenderer);
 		}
 	}
+}
+
+Particule* GenerateurParticule::GetPooledParticule()
+{
+	return nullptr;
 }

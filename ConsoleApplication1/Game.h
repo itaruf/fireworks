@@ -11,14 +11,14 @@ class Game
 private:
 
     bool _isRunning;
-    
+	int _nbGenerateur;
 	std::vector<GenerateurParticule*> _generateurs;
 	int _modele;
 	std::string _couleur;
 	SDL_Renderer* _screenRenderer;
 
 public:
-	Game() = default;
+	Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer);
 	~Game();
 	Game(const Game&) = delete;
 	Game(Game&&) = delete;

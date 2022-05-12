@@ -7,18 +7,15 @@ Sprite::Sprite(SDL_Texture* spriteImage): _spriteImage(spriteImage)
 
 Sprite::~Sprite()
 {
-    SDL_DestroyTexture(_spriteImage);
+     SDL_DestroyTexture(_spriteImage);
 }
 
 void Sprite::Render(SDL_Renderer* screenRenderer, int posX, int posY, int width, int height, unsigned char alpha)
 {
-    if (screenRenderer == nullptr)
-    {
-        delete screenRenderer;
+    if (!screenRenderer)
         return;
-    }
 
-    if (_spriteImage == nullptr)
+    if (!_spriteImage)
         return;
 
     SDL_SetTextureAlphaMod(_spriteImage, alpha);
@@ -28,6 +25,9 @@ void Sprite::Render(SDL_Renderer* screenRenderer, int posX, int posY, int width,
 
 int Sprite::GetWidth() const
 {
+    if (!_spriteImage)
+        return 0;
+
     int width, height;
     SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
     return width;
@@ -35,6 +35,9 @@ int Sprite::GetWidth() const
 
 int Sprite::GetHeight() const
 {
+    if (!_spriteImage)
+        return 0;
+
     int width, height;
     SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
     return height;

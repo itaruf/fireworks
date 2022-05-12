@@ -46,12 +46,13 @@ int main(int argc, char* argv[])
 
 	//brackets here are due to game being declared after goto. we could also move the variable declaration bit from an init order point of view it's better this way
 	{
-		Game* game = new Game();
-		if (!game->Init(screenRenderer))
+		Game* game = new Game(true, 5, "blanc", 1, screenRenderer);
+
+		/*if (game->))
 		{
 			std::cout << "Game could not be Initialized!" << std::endl; 
 			goto exit;
-		}
+		}*/
 
 		//main loop
 

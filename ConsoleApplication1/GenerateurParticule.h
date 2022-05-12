@@ -2,12 +2,12 @@
 
 #include "Particule.h"
 #include "Vector.h"
-
+#include <vector>
 
 class GenerateurParticule
 {
 public:
-	Particule** _liste;
+	std::vector<Particule*> _liste;
 	int _nbParticulesMax;
 	int _nbParticulesRestantes;
 	std::string _modele;
@@ -28,13 +28,15 @@ public:
 
 	bool EstActif();
 
-	void AjouterParticule();
+	void AjouterParticule(int index);
 
 	void Update(int deltaTime);
 
 	int GetNbParticulesActives();
 
 	void Render(SDL_Renderer* screenRenderer);
+
+	Particule* GetPooledParticule();
 
 };
 
