@@ -15,59 +15,58 @@ Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SD
     srand(time(NULL));
 }
 
-bool Game::Init(SDL_Renderer * screenRenderer)
-{
-	return true;
-}
-
 void Game::Update(int deltaTime)
 {
     SDL_Event e;
     while (SDL_PollEvent(&e) != 0)
     {
-        if (e.type == SDL_QUIT)
+        switch (e.type)
         {
+        case SDL_QUIT:
             _isRunning = false;
-        }
-        else if (e.type == SDL_KEYDOWN)
-        {
-            if(e.key.keysym.sym == SDLK_ESCAPE)
+            break;
+        case SDL_KEYDOWN:
+            switch (e.key.keysym.sym)
             {
+            case SDLK_ESCAPE:
                 _isRunning = false;
-            }
-            if (e.key.keysym.sym == SDLK_1)
-            {
+                break;
+            case SDLK_1:
                 _couleur = "blanc";
-            }
-            if (e.key.keysym.sym == SDLK_2)
-            {
+                break;
+            case SDLK_2:
                 _couleur = "rouge";
-            }
-            if (e.key.keysym.sym == SDLK_3)
-            {
+                break;
+            case SDLK_3:
                 _couleur = "vert";
-            }
-            if (e.key.keysym.sym == SDLK_4)
-            {
+                break;
+            case SDLK_4:
                 _couleur = "bleu";
-            }
-            if (e.key.keysym.sym == SDLK_9)
-            {
+                break;
+            case SDLK_9:
                 _modele = 1;
-            }
-            if (e.key.keysym.sym == SDLK_0)
-            {
+                break;
+            case SDLK_0:
                 _modele = 2;
+                break;
+            default:
+                break;
             }
-        }
-        else if (e.type == SDL_MOUSEBUTTONDOWN)
-        {
-            if (e.button.button == 1)
+            break;
+        case SDL_MOUSEBUTTONDOWN:
+            switch (e.button.button) 
             {
+            case 1:
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
                 CreerGenerateurParticule(mouseX, mouseY);
+                break;
+            default:
+                break;
             }
+            break;
+        default:
+            break;
         }
     }
 
@@ -75,12 +74,12 @@ void Game::Update(int deltaTime)
     {
         for (const auto& generateur : _generateurs) 
         {
-            if (generateur == nullptr)
+            if (!generateur)
                 continue;
 
             if (!generateur->EstActif())
             {
-                auto generateurTMP = generateur;
+                auto generateurTMP{ generateur };
                 _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateurTMP));
                 delete generateurTMP;
             }
@@ -95,13 +94,12 @@ void Game::Update(int deltaTime)
 void Game::Render(SDL_Renderer* screenRenderer)
 {
     SDL_RenderClear(screenRenderer);
-    /*std::cout << _isRunning << std::endl;*/
 
 	if (_isRunning)
     {
         for (const auto& generateur : _generateurs)
         {
-            if (generateur == nullptr)
+            if (!generateur)
                 continue;
             generateur->Render(screenRenderer);
         }
@@ -127,12 +125,11 @@ void Game::CreerGenerateurParticule(int posX, int posY)
 {
     if (_generateurs.size() == _nbGenerateur)
     {
-        auto generator = _generateurs[0];
+        auto generator{ _generateurs[0] };
         _generateurs.erase(_generateurs.begin());
         delete generator;
     }
-    Vector* position = new Vector(posX, posY);
-    auto generateur = new GenerateurParticule();
-    generateur->Init(_screenRenderer, rand() % 20, 20 + rand() % 80, 500 + rand() % 2500, "particle" + std::to_string(_modele), _couleur, rand() % 5, rand() % 15, position, 16, 64, 100 + rand() % 500, rand() % 90);
+    Vector* position{ new Vector(posX, posY) };
+    auto generateur{ new GenerateurParticule(_screenRenderer, rand() % 20, 20 + rand() % 80, 500 + rand() % 2500, "particle" + std::to_string(_modele), _couleur, rand() % 5, rand() % 15, position, 16, 64, 100 + rand() % 500, rand() % 90) };
     _generateurs.emplace_back(generateur);
 }

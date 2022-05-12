@@ -22,8 +22,7 @@ public:
 	int _angleMax;
 
 	~GenerateurParticule();
-
-	void Init(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
+	GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
 		int vieMin, int vieMax, Vector* position, int tailleMin, int tailleMax, int force, int angleMax);
 
 	bool EstActif();

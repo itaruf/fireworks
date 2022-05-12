@@ -11,7 +11,7 @@ public:
 	Sprite() = delete;
 	Sprite(SDL_Texture* _spriteImage);
 	Sprite(const Sprite&) = delete;
-	Sprite(Sprite&&) = delete;
+	Sprite(Sprite*&& sprite) noexcept;
 	Sprite& operator=(const Sprite&) = delete;
 	~Sprite();
 

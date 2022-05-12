@@ -24,7 +24,6 @@ public:
 	Game(Game&&) = delete;
 	Game& operator=(const Game&) = delete;
 
-	bool Init(SDL_Renderer* screenRenderer);
 	void Release();
 
 	void Update(int deltaTime);
