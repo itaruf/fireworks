@@ -3,11 +3,12 @@
 #ifndef SPRITE_H
 #define SPRITE_H
 
-#include <string>
 #include <SDL_surface.h>
 #include <SDL_render.h>
 #include <SDL.h>
+
 #include <iostream>
+#include <string>
 
 class Sprite
 {

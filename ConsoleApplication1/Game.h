@@ -4,13 +4,14 @@
 #define GAME_H
 
 #include <SDL_render.h>
-#include "GenerateurParticule.h"
-#include <string>
-#include <vector>
 #include <SDL.h>
-#include <iostream>
 #include <SDL_scancode.h>
+
+#include "GenerateurParticule.h"
 #include "Font.h"
+
+#include <vector>
+#include <iostream>
 #include <time.h>
 
 class IGameEntity;

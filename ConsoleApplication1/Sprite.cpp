@@ -3,7 +3,8 @@
 Sprite::Sprite(SDL_Texture* spriteImage): _spriteImage(spriteImage)
 {
     /*std::cout << "DEFAULT CONSTRUCTOR CALLED" << std::endl;*/
-    spriteImage = nullptr;
+    /*spriteImage = nullptr;
+    delete spriteImage;*/
     /*std::cout << std::addressof(spriteImage) << std::endl;
     std::cout << std::addressof(_spriteImage) << std::endl;*/
 }

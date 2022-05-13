@@ -3,7 +3,7 @@
 GenerateurParticule::~GenerateurParticule()
 {
 	std::cout << "GenerateurParticule Destructor Called" << std::endl;
-	std::cout << _liste.size() << std::endl;
+	/*std::cout << _liste.size() << std::endl;*/
 
 	for (const auto& particule : _liste)
 		delete particule;
@@ -53,7 +53,7 @@ void GenerateurParticule::AjouterParticule(int index)
 
 	//auto tmp = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
 	_liste.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille));
-	std::cout << _liste.size() << std::endl;
+	/*std::cout << _liste.size() << std::endl;*/
 	//tmp = nullptr;
 	_nbParticulesRestantes--;
 }

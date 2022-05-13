@@ -3,10 +3,10 @@
 #ifndef PARTICULE_H
 #define PARTICULE_H
 
+#include <SDL_image.h>
+
 #include "Vector.h"
 #include "Sprite.h"
-#include <SDL_image.h>
-#include <iostream>
 
 class Particule
 {

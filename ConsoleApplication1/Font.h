@@ -5,6 +5,7 @@
 
 #include <SDL_ttf.h>
 #include <string>
+
 class Font
 {
 	TTF_Font* _font;

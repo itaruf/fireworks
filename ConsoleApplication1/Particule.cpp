@@ -76,11 +76,12 @@ void Particule::Update(int deltaTime)
 	if (newPosition->y + taille / 2 >= 720)
 	{
 		newPosition->y = 720 - (newPosition->y - 720);
-		_force->y *= - 0.8;
+		_force->y *= - 0.8f;
 	}
 	_position->x = newPosition->x;
 	_position->y = newPosition->y;
 
+	newPosition = nullptr;
 	/*std::cout << _position << std::endl;
 	std::cout << newPosition << std::endl;*/
 }

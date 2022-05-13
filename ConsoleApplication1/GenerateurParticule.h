@@ -4,9 +4,8 @@
 #define GENERATEUR_PARTICULE_H
 
 #include "Particule.h"
-#include "Vector.h"
+
 #include <vector>
-#include <iostream>
 #include <iterator>
 #include <algorithm>
 

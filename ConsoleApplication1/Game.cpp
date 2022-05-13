@@ -10,7 +10,7 @@ Game::~Game()
     }
 }
 
-Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer * screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ true }, _screenRenderer{ screenRenderer }
+Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer * screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
     /*_generateurs.resize(nbGenerateur);
     std::cout << _generateurs.capacity() << std::endl;*/
@@ -99,6 +99,7 @@ void Game::Render(SDL_Renderer* screenRenderer)
 
 	if (_isRunning)
     {
+        /*std::cout << _generateurs.size() << std::endl;*/
         for (const auto& generateur : _generateurs)
         {
             if (!generateur)

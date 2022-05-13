@@ -24,6 +24,8 @@ int main(int argc, char* argv[])
 	if (!window)
 	{
 		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+		TTF_Quit();
+		SDL_Quit();
 		return 1;
 	}
 	
@@ -32,12 +34,14 @@ int main(int argc, char* argv[])
 	if (!screenRenderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+		SDL_DestroyWindow(window);
 		return 1;
 	}
 
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		SDL_DestroyWindow(window);
 		return 1;
 	}
 
@@ -45,11 +49,13 @@ int main(int argc, char* argv[])
 	{
 		Game* game{ new Game(true, 5, "blanc", 1, screenRenderer) };
 
-		/*if (game->))
+		if (!game->IsRunning())
 		{
 			std::cout << "Game could not be Initialized!" << std::endl; 
-			goto exit;
-		}*/
+			TTF_Quit();
+			SDL_Quit();
+			return 1;
+		}
 
 		//main loop
 
@@ -103,13 +109,5 @@ int main(int argc, char* argv[])
 	}
 
 	SDL_DestroyRenderer(screenRenderer);
-
-exit2:
-	SDL_DestroyWindow(window);
-
-exit:
-	TTF_Quit();
-	SDL_Quit();
-
 	return 0;
 }

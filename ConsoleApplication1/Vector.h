@@ -3,6 +3,8 @@
 #ifndef VECTOR_H
 #define VECTOR_H
 
+#include <iostream>
+
 struct Vector
 {
 	float x;
@@ -18,6 +20,10 @@ struct Vector
 	{
 		this->x = x;
 		this->y = y;
+	}
+	~Vector() 
+	{
+		/*std::cout << "VECTOR DESTRUCTOR CALLED " << std::endl;*/
 	}
 };
 
