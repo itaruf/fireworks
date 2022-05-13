@@ -4,8 +4,7 @@ Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::str
 	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position }, _force{ _force }, taille{ taille }
 {
 	/*std::cout << "Particule Constructor called" << std::endl;*/
-
-	std::cout << screenRenderer << std::endl;
+	/*std::cout << screenRenderer << std::endl;*/
 
 	//Load image at specified path
 	SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };		

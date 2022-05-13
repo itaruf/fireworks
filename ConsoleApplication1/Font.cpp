@@ -1,5 +1,4 @@
 #include "Font.h"
-#include <iostream>
 
 Font::Font(std::string name, int size)
 {
@@ -9,7 +8,6 @@ Font::Font(std::string name, int size)
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		// handle error
 	}
-	std::cout << "old : " << name << std::endl;
 }
 
 Font::~Font()

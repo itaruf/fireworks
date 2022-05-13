@@ -11,6 +11,7 @@ Game::~Game()
 
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
+    std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;
     srand((unsigned int)time(NULL));
     /*std::cout << std::addressof(screenRenderer) << std::endl;
     std::cout << std::addressof(_screenRenderer) << std::endl;*/
@@ -57,19 +58,14 @@ void Game::Update(int deltaTime)
             }
             break;
         case SDL_MOUSEBUTTONDOWN:
-            switch (e.button.button) 
+            if (e.button.button == 1)
             {
-            case 1:
                 int mouseX, mouseY;
                 SDL_GetMouseState(&mouseX, &mouseY);
                 CreerGenerateurParticule(mouseX, mouseY);
-                break;
-            default:
-                break;
             }
             break;
         default:
-            /*std::cout << "Default" << std::endl;*/
             break;
         }
     }

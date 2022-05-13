@@ -2,7 +2,7 @@
 
 GenerateurParticule::~GenerateurParticule()
 {
-	std::cout << "GenerateurParticule Destructor Called" << std::endl;
+	std::cout << "GENERATOR DESTRUCTOR CALLED" << std::endl;
 	/*std::cout << _liste.size() << std::endl;*/
 
 	for (const auto& particule : _liste)
@@ -13,6 +13,9 @@ GenerateurParticule::~GenerateurParticule()
 GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, Vector* position, int tailleMin, int tailleMax, int force, int angleMax)
 	: _screenRenderer{ screenRenderer }, _nbParticulesMax{ nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{vieMin}, _vieMax{vieMax}, _position{position}, _tailleMin{tailleMin}, _tailleMax{tailleMax}, _force{force}, _angleMax{angleMax}
 {
+
+	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
+
 	/*std::cout << screenRenderer << std::endl;
 	std::cout << _screenRenderer << std::endl;*/
 
@@ -64,29 +67,11 @@ void GenerateurParticule::Update(int deltaTime)
 			}
 		}
 	}
-	/*for (int i = 0; i < _liste.size(); ++i)
-	{
-		if (_liste[i])
-		{
-			_liste[i]->Update(deltaTime);
-			if (!_liste[i]->EstVivante())
-			{
-				delete _liste[i];
-				if (GetNbParticulesActives() < 5 && EstActif())
-					AjouterParticule(i);
-				
-			}
-		}
-	}*/
-
-	/*std::cout << _nbParticulesMax << std::endl;*/
-	/*std::cout << _liste.size() << std::endl;*/
-	/*std::cout << _nbParticulesRestantes << std::endl;*/
 }
 
 int GenerateurParticule::GetNbParticulesActives()
 {
-	int nb = 0;
+	int nb{ 0 };
 	for (const auto& particule : _liste)
 		if (particule)
 			nb++;
