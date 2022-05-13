@@ -16,21 +16,19 @@ int main(int argc, char* argv[])
 
 	SDLWindow window("Oh la belle bleue", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720);
 
-	if (!window.m_window)
+	if (!window.window)
 	{
 		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
 		TTF_Quit();
 		SDL_Quit();
-		SDL_DestroyWindow(window.m_window);
 		return 1;
 	}
 	
-	SDL_Renderer* screenRenderer{ SDL_CreateRenderer(window.m_window, -1, SDL_RENDERER_ACCELERATED) };
+	SDL_Renderer* screenRenderer{ SDL_CreateRenderer(window.window, -1, SDL_RENDERER_ACCELERATED) };
 
 	if (!screenRenderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		SDL_DestroyWindow(window.m_window);
 		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
@@ -38,33 +36,27 @@ int main(int argc, char* argv[])
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-		SDL_DestroyWindow(window.m_window);
 		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
-	std::string str{"blanc"};
-
-	Game* game{ new Game(true, 5, std::move(str), 1, screenRenderer) };
+	Game* game{ new Game(true, 5, "blanc", 1, screenRenderer) };
 
 	if (!game->IsRunning())
 	{
 		std::cout << "Game could not be Initialized!" << std::endl;
 		TTF_Quit();
 		SDL_Quit();
-		SDL_DestroyWindow(window.m_window);
 		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
 	//dirty font for fps
-	str = "arial.ttf";
-	Font* font{ new Font(std::move(str), 16) };
+	Font* font{ new Font("arial.ttf", 16) };
 	
 	SDL_Color color{ 255, 0, 0, 255 };
 
-	str = "0 FPS";
-	SDL_Texture* fontTexture{ font->CreateTextTexture(std::move(str), color, screenRenderer) };
+	SDL_Texture* fontTexture{ font->CreateTextTexture("0 FPS", color, screenRenderer) };
 
 	while (game->IsRunning())
 	{
@@ -83,8 +75,6 @@ int main(int argc, char* argv[])
 		Uint32 endTicks{ SDL_GetTicks() };
 		float elapsed{ 1.0f / ((endTicks - startTicks) / 1000.0f) };
 
-		std::cout << "Current FPS: " << std::to_string(elapsed) << std::endl;
-
 		snprintf(fpsmessage, 255, "%f FPS", elapsed);
 		fontTexture = font->CreateTextTexture(fpsmessage, color, screenRenderer);
 		SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
@@ -94,13 +84,12 @@ int main(int argc, char* argv[])
 		game->Render(screenRenderer);
 		SDL_RenderCopy(screenRenderer, fontTexture, NULL, &fontDstRec);
 		SDL_RenderPresent(screenRenderer);
-		SDL_UpdateWindowSurface(window.m_window);
+		SDL_UpdateWindowSurface(window.window);
 	}
 
 	SDL_Delay(1000);
 
 	SDL_DestroyTexture(fontTexture);
-	SDL_DestroyWindow(window.m_window);
 	SDL_DestroyRenderer(screenRenderer);
 
 	delete game;
