@@ -13,6 +13,7 @@
 #include <vector>
 #include <iostream>
 #include <time.h>
+#include <random>
 
 class IGameEntity;
 
@@ -42,5 +43,10 @@ public:
 
 	void CreerGenerateurParticule(int posX, int posY);
 };
+
+inline bool Game::IsRunning()
+{
+	return _isRunning;
+}
 
 #endif GAME_H

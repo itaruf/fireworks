@@ -12,9 +12,7 @@ Game::~Game()
 
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer * screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
-    /*_generateurs.resize(nbGenerateur);
-    std::cout << _generateurs.capacity() << std::endl;*/
-    srand(time(NULL));
+    srand((unsigned int)time(NULL));
 }
 
 void Game::Update(int deltaTime)
@@ -68,12 +66,14 @@ void Game::Update(int deltaTime)
             }
             break;
         default:
+            /*std::cout << "Default" << std::endl;*/
             break;
         }
     }
 
-    if (_isRunning)
+    if (_isRunning && _generateurs.size() > 0)
     {
+        /*std::cout << _generateurs.size() << std::endl;*/
         for (auto& generateur : _generateurs) 
         {
             if (!generateur)
@@ -81,9 +81,8 @@ void Game::Update(int deltaTime)
 
             if (!generateur->EstActif())
             {
-                auto tmp = generateur;
-                _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), tmp));
-                delete tmp;
+                _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateur));
+                delete generateur;
             }
             else
             {
@@ -97,33 +96,34 @@ void Game::Render(SDL_Renderer* screenRenderer)
 {
     SDL_RenderClear(screenRenderer);
 
-	if (_isRunning)
+    if (_isRunning)
     {
         /*std::cout << _generateurs.size() << std::endl;*/
         for (const auto& generateur : _generateurs)
         {
             if (!generateur)
                 continue;
+
+            if (!generateur->EstActif())
+                continue;
+
             generateur->Render(screenRenderer);
         }
     }
-}
-
-bool Game::IsRunning()
-{
-	return _isRunning;
 }
 
 void Game::CreerGenerateurParticule(int posX, int posY)
 {
     if (_generateurs.size() == _nbGenerateur)
     {
-        auto generator{ _generateurs[0] };
-        _generateurs.erase(_generateurs.begin());
-        delete generator;
+        auto generateur{ _generateurs[0] };
+        _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateur));
+        delete generateur;
     }
+
     Vector* position{ new Vector(posX, posY) };
     auto generateur{ new GenerateurParticule(_screenRenderer, rand() % 20, 20 + rand() % 80, 500 + rand() % 2500, "particle" + std::to_string(_modele), _couleur, rand() % 5, rand() % 15, position, 16, 64, 100 + rand() % 500, rand() % 90) };
     _generateurs.emplace_back(generateur);
+
     position = nullptr;
 }

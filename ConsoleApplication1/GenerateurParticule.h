@@ -32,7 +32,7 @@ public:
 
 	bool EstActif();
 
-	void AjouterParticule(int index);
+	void AjouterParticule();
 
 	void Update(int deltaTime);
 
@@ -43,5 +43,12 @@ public:
 	Particule* GetPooledParticule();
 
 };
+
+inline bool GenerateurParticule::EstActif()
+{
+	if (_nbParticulesRestantes > 0)
+		return true;
+	return false;
+}
 
 #endif GENERATEUR_PARTICULE_H

@@ -7,8 +7,8 @@
 
 struct Vector
 {
-	float x;
-	float y;
+	int x;
+	int y;
 
 	Vector()
 	{
@@ -16,7 +16,7 @@ struct Vector
 		y = 0;
 	}
 
-	Vector(float x, float y)
+	Vector(int x, int y)
 	{
 		this->x = x;
 		this->y = y;

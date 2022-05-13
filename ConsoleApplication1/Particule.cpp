@@ -81,7 +81,8 @@ void Particule::Update(int deltaTime)
 	_position->x = newPosition->x;
 	_position->y = newPosition->y;
 
-	newPosition = nullptr;
+	/*newPosition = nullptr;*/
+	delete newPosition;
 	/*std::cout << _position << std::endl;
 	std::cout << newPosition << std::endl;*/
 }

@@ -50,35 +50,11 @@ void Sprite::Render(SDL_Renderer* screenRenderer, int posX, int posY, int width,
     SDL_RenderCopy(screenRenderer, _spriteImage, NULL, &rect);
 }
 
-int Sprite::GetWidth() const
-{
-    if (!_spriteImage)
-        return 0;
-
-    int width, height;
-    SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
-    return width;
-}
-
-int Sprite::GetHeight() const
-{
-    if (!_spriteImage)
-        return 0;
-
-    int width, height;
-    SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
-    return height;
-}
-
-SDL_Texture* Sprite::GetSprite()
-{
-    return _spriteImage;
-}
-
 void Sprite::SetSprite(SDL_Texture* sprite)
 {
     _spriteImage = sprite;
     sprite = nullptr;
+
     /*if (_spriteImage)
         delete _spriteImage;
     else 

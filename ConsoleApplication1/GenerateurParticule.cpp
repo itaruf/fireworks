@@ -26,18 +26,11 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 
 	for (int i = 0; i < nbParticulesDebut; ++i)
 	{
-		AjouterParticule(i);
+		AjouterParticule();
 	}
 }
 
-bool GenerateurParticule::EstActif()
-{
-	if (_nbParticulesRestantes > 0)
-		return true;
-	return false;
-}
-
-void GenerateurParticule::AjouterParticule(int index)
+void GenerateurParticule::AjouterParticule()
 {
 	int angle{ 0 };
 	if (_angleMax != 0)
@@ -70,7 +63,7 @@ void GenerateurParticule::Update(int deltaTime)
 				_liste.erase(std::find(_liste.begin(), _liste.end(), particule));
 				delete particule;
 				if (GetNbParticulesActives() < _nbParticulesRestantes && EstActif())
-					AjouterParticule(0);
+					AjouterParticule();
 			}
 		}
 	}

@@ -10,6 +10,7 @@
 #include <iostream>
 #include <string>
 
+struct SDL_Texture;
 class Sprite
 {
 protected:
@@ -27,10 +28,33 @@ public:
 
 	int GetWidth() const;
 	int GetHeight() const;
-
 	SDL_Texture* GetSprite();
 	void SetSprite(SDL_Texture* sprite);
 
 };
+
+inline int Sprite::GetWidth() const
+{
+	if (!_spriteImage)
+		return 0;
+
+	int width, height;
+	SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
+	return width;
+}
+
+inline int Sprite::GetHeight() const
+{
+	if (!_spriteImage)
+		return 0;
+
+	int width, height;
+	SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
+	return height;
+}
+inline SDL_Texture* Sprite::GetSprite()
+{
+	return _spriteImage;
+}
 
 #endif SPRITE_H
