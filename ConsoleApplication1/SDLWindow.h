@@ -1,10 +1,13 @@
 #pragma once
 
+#ifndef SDLWINDOW_H
+#define SDLWINDOW_H
+
 #include <SDL.h>
 #include <string>
 #include <iostream>
+#include "SDLRenderer.h"
 
-struct SDL_Renderer;
 class SDLWindow
 {
 public:
@@ -15,8 +18,10 @@ public:
 	SDLWindow& operator=(SDLWindow&&) = delete;
 	~SDLWindow();
 
-	/*SDLppRenderer CreateRenderer(Uint32 flags);
-	SDLppRenderer CreateRenderer(int index, Uint32 flags);*/
+	SDLRenderer CreateRenderer(Uint32 flags);
+	SDLRenderer CreateRenderer(int index, Uint32 flags);
 public:
 	SDL_Window* window;
 };
+
+#endif SDLWINDOW_H

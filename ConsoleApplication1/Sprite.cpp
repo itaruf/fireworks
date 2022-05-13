@@ -24,7 +24,8 @@ Sprite& Sprite::operator=(Sprite&& other) noexcept
     if (this == &other)
         return *this;
 
-    delete _spriteImage;
+    if (_spriteImage)
+        delete _spriteImage;
 
     _spriteImage = other._spriteImage;
     other._spriteImage = nullptr;

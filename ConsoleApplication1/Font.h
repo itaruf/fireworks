@@ -5,11 +5,13 @@
 
 #include <SDL_ttf.h>
 #include <string>
+#include <iostream>
 
 class Font
 {
-	TTF_Font* _font;
 public:
+	TTF_Font* _font;
+
 	Font() = delete;
 	Font(std::string name, int size);
 	Font(const Font& font) = delete;

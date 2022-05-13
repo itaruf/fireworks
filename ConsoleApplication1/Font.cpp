@@ -12,6 +12,7 @@ Font::Font(std::string name, int size)
 
 Font::~Font()
 {
+	/*std::cout << "FONT DESTRUCTOR CALLED" << std::endl;*/
 	TTF_CloseFont(_font);
 }
 

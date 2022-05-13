@@ -13,7 +13,6 @@ int main(int argc, char* argv[])
 	TTF_Init();
 
 	//The surface contained by the window
-
 	SDLWindow window("Oh la belle bleue", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 1280, 720);
 
 	if (!window.window)
@@ -23,40 +22,35 @@ int main(int argc, char* argv[])
 		SDL_Quit();
 		return 1;
 	}
-	
-	SDL_Renderer* screenRenderer{ SDL_CreateRenderer(window.window, -1, SDL_RENDERER_ACCELERATED) };
 
-	if (!screenRenderer)
+	SDLRenderer renderer{ window.CreateRenderer(-1, SDL_RENDERER_ACCELERATED) };
+
+	if (!renderer.renderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
-	Game* game{ new Game(true, 5, "blanc", 1, screenRenderer) };
+	Game* game{ new Game(true, 5, "blanc", 1, renderer.renderer) };
 
 	if (!game->IsRunning())
 	{
 		std::cout << "Game could not be Initialized!" << std::endl;
 		TTF_Quit();
 		SDL_Quit();
-		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
 	//dirty font for fps
-	Font* font{ new Font("arial.ttf", 16) };
-	
-	SDL_Color color{ 255, 0, 0, 255 };
 
-	SDL_Texture* fontTexture{ font->CreateTextTexture("0 FPS", color, screenRenderer) };
+	SDL_Color color{ 255, 0, 0, 255 };
+	SDLTexture texture{ SDLTexture::FromSurface(renderer, "0 FPS", color)};
 
 	while (game->IsRunning())
 	{
@@ -65,7 +59,7 @@ int main(int argc, char* argv[])
 
 		char fpsmessage[255];
 
-		https://thenumbat.github.io/cpp-course/sdl2/08/08.html
+		//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
 
 		Uint32 startTicks{ SDL_GetTicks() };
 
@@ -73,27 +67,22 @@ int main(int argc, char* argv[])
 		SDL_Delay(30);
 
 		Uint32 endTicks{ SDL_GetTicks() };
-		float elapsed{ 1.0f / ((endTicks - startTicks) / 1000.0f) };
+		int elapsed{(int)(1.0f / ((endTicks - startTicks) / 1000.0f))};
 
-		snprintf(fpsmessage, 255, "%f FPS", elapsed);
-		fontTexture = font->CreateTextTexture(fpsmessage, color, screenRenderer);
-		SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
+		snprintf(fpsmessage, 255, "%d FPS", elapsed);
+		texture = SDLTexture::FromSurface(renderer, fpsmessage, color);
+		SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
 		SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
 		game->Update(elapsed);
-		game->Render(screenRenderer);
-		SDL_RenderCopy(screenRenderer, fontTexture, NULL, &fontDstRec);
-		SDL_RenderPresent(screenRenderer);
+		game->Render(renderer.renderer);
+		SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
+		SDL_RenderPresent(renderer.renderer);
 		SDL_UpdateWindowSurface(window.window);
 	}
 
-	SDL_Delay(1000);
-
-	SDL_DestroyTexture(fontTexture);
-	SDL_DestroyRenderer(screenRenderer);
-
 	delete game;
-	delete font;
+	/*delete font;*/
 
 
 	return 0;
