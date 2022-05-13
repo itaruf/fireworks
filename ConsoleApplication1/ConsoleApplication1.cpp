@@ -30,6 +30,7 @@ int main(int argc, char* argv[])
 	}
 	
 	SDL_Renderer* screenRenderer{ SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED) };
+	/*std::shared_ptr<SDL_Renderer> sharedScreen(screenRenderer, SDL_DestroyRenderer);*/
 
 	if (!screenRenderer)
 	{
@@ -73,6 +74,8 @@ int main(int argc, char* argv[])
 
 		while (game->IsRunning()) 
 		{
+			/*std::cout << sharedScreen.use_count() << std::endl;*/
+
 			auto now{ SDL_GetTicks() };
 			auto deltaTime{ now - lastTickTime };
 			auto time{ lastFpsTime + 1000 };

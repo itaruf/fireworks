@@ -1,9 +1,11 @@
 #include "Particule.h"
 
-Particule::Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, Vector* _position, Vector* _force, int taille) 
+Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, Vector* _position, Vector* _force, int taille) 
 	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position }, _force{ _force }, taille{ taille }
 {
 	/*std::cout << "Particule Constructor called" << std::endl;*/
+
+	std::cout << screenRenderer << std::endl;
 
 	//Load image at specified path
 	SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };		
@@ -16,7 +18,7 @@ Particule::Particule(SDL_Renderer* renderer, std::string _modele, std::string _c
 	//Create texture from surface pixels
 	else 
 	{
-		sprite = new Sprite(SDL_CreateTextureFromSurface(renderer, loadedSurface));
+		sprite = new Sprite(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
 		if (!sprite->GetSprite())
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
