@@ -17,6 +17,9 @@
 mono_crash.*
 
 # Build results
+ConsoleApplication1/Debug/*
+.vs/*
+Debug/*
 [Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
