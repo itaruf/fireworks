@@ -17,7 +17,7 @@ public:
 	~Font();
 	Font& operator=(const Font&) = delete;
 
-	SDL_Texture* CreateTextTexture(std::string text, SDL_Color color, SDL_Renderer* renderer);
+	SDL_Texture* CreateTextTexture(std::string text, SDL_Color& color, SDL_Renderer* renderer);
 
 };
 

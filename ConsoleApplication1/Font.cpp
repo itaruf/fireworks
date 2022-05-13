@@ -1,4 +1,5 @@
 #include "Font.h"
+#include <iostream>
 
 Font::Font(std::string name, int size)
 {
@@ -8,6 +9,7 @@ Font::Font(std::string name, int size)
 		printf("TTF_OpenFont: %s\n", TTF_GetError());
 		// handle error
 	}
+	std::cout << "old : " << name << std::endl;
 }
 
 Font::~Font()
@@ -15,7 +17,7 @@ Font::~Font()
 	TTF_CloseFont(_font);
 }
 
-SDL_Texture* Font::CreateTextTexture(std::string text, SDL_Color color, SDL_Renderer* renderer)
+SDL_Texture* Font::CreateTextTexture(std::string text, SDL_Color& color, SDL_Renderer* renderer)
 {
 	SDL_Surface* surfaceMessage{ TTF_RenderText_Blended_Wrapped(_font, std::move(text.c_str()), color, 255) };
 	auto texture{ SDL_CreateTextureFromSurface(renderer, surfaceMessage) };

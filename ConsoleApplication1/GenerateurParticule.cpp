@@ -18,11 +18,6 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 
 	_liste.reserve(_nbParticulesRestantes);
 
-	/*for (int i = 0; i < 5; ++i)
-	{
-		_liste.emplace_back(nullptr);
-	}*/
-
 	/*std::cout << _nbParticulesMax << std::endl;
 	std::cout << _liste.capacity() << std::endl;*/
 

@@ -10,12 +10,8 @@
 #include "GenerateurParticule.h"
 #include "Font.h"
 
-#include <vector>
-#include <iostream>
 #include <time.h>
 #include <random>
-
-class IGameEntity;
 
 class Game
 {

@@ -1,6 +1,5 @@
 #include "Game.h"
 
-
 Game::~Game()
 {
     std::cout << "GAME DESTRUCTOR CALLED " << std::endl;
@@ -13,8 +12,8 @@ Game::~Game()
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
     srand((unsigned int)time(NULL));
-    std::cout << std::addressof(screenRenderer) << std::endl;
-    std::cout << std::addressof(_screenRenderer) << std::endl;
+    /*std::cout << std::addressof(screenRenderer) << std::endl;
+    std::cout << std::addressof(_screenRenderer) << std::endl;*/
     /*std::cout << screenRenderer << std::endl;
     std::cout << _screenRenderer << std::endl;*/
 }
@@ -100,7 +99,7 @@ void Game::Render(SDL_Renderer* screenRenderer)
 {
     SDL_RenderClear(screenRenderer);
 
-    if (_isRunning)
+    if (_isRunning && _generateurs.size() > 0)
     {
         /*std::cout << _generateurs.size() << std::endl;*/
         for (const auto& generateur : _generateurs)

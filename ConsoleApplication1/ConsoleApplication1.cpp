@@ -21,96 +21,106 @@ int main(int argc, char* argv[])
 		SDL_WINDOW_OPENGL
 	)};
 
-	if (!window)
+	/*if (!window)
 	{
 		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
 		TTF_Quit();
 		SDL_Quit();
+		SDL_DestroyWindow(window);
 		return 1;
-	}
+	}*/
 	
 	SDL_Renderer* screenRenderer{ SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED) };
-	/*std::shared_ptr<SDL_Renderer> sharedScreen(screenRenderer, SDL_DestroyRenderer);*/
 
-	if (!screenRenderer)
+	/*if (!screenRenderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
 		SDL_DestroyWindow(window);
+		SDL_DestroyRenderer(screenRenderer);
 		return 1;
-	}
+	}*/
 
-	if (!(IMG_Init(imgFlags) & imgFlags))
+	/*if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
 		SDL_DestroyWindow(window);
+		SDL_DestroyRenderer(screenRenderer);
+		return 1;
+	}*/
+
+	Game* game{ new Game(true, 5, "blanc", 1, screenRenderer) };
+
+	if (!game->IsRunning())
+	{
+		std::cout << "Game could not be Initialized!" << std::endl;
+		TTF_Quit();
+		SDL_Quit();
+		SDL_DestroyWindow(window);
+		SDL_DestroyRenderer(screenRenderer);
 		return 1;
 	}
 
-	//brackets here are due to game being declared after goto. we could also move the variable declaration bit from an init order point of view it's better this way
+	//main loop
+
+	auto lastTickTime{ SDL_GetTicks() };
+	auto lastFpsTime{ lastTickTime };
+
+	//dirty font for fps
+	std::string str{ "arial.ttf" };
+	Font* font{ new Font(std::move(str), 16) };
+
+	SDL_Color color{ 255, 0, 0, 255 };
+	
+	str = "0 FPS";
+
+	auto fontTexture{ font->CreateTextTexture(std::move(str), color, screenRenderer) };
+	auto texW{ 0 };
+	auto texH{ 0 };
+	SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
+	SDL_Rect fontDstRec{ 0, 0, texW, texH };
+	auto fpsCount{ 0 };
+	char fpsmessage[255];
+
+	while (game->IsRunning())
 	{
-		Game* game{ new Game(true, 5, "blanc", 1, screenRenderer) };
+		/*std::cout << sharedScreen.use_count() << std::endl;*/
 
-		if (!game->IsRunning())
+		auto now{ SDL_GetTicks() };
+		auto deltaTime{ now - lastTickTime };
+		auto time{ lastFpsTime + 1000 };
+
+		if (time <= now)
 		{
-			std::cout << "Game could not be Initialized!" << std::endl; 
-			TTF_Quit();
-			SDL_Quit();
-			return 1;
+			lastFpsTime = now;
+			snprintf(fpsmessage, 255, "%d FPS", fpsCount);
+			
+			fontTexture = font->CreateTextTexture(fpsmessage, color, screenRenderer);
+			SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
+			fontDstRec = { 0, 0, texW, texH };
+			fpsCount = 0;
 		}
+		++fpsCount;
 
-		//main loop
+		game->Update(deltaTime);
 
-		auto lastTickTime{ SDL_GetTicks() };
-		auto lastFpsTime{ lastTickTime };
-		//dirty font for fps
-		Font* font{ new Font("arial.ttf", 16) };
-		auto fontTexture{ font->CreateTextTexture("0 FPS", SDL_Color{ 255, 0, 0,255 }, screenRenderer) };
-		int texW{ 0 };
-		int texH{ 0 };
-		SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
-		SDL_Rect fontDstRec{ 0, 0, texW, texH };
-		int fpsCount{ 0 };
-		char fpsmessage[255];
+		lastTickTime = now;
 
-		while (game->IsRunning()) 
-		{
-			/*std::cout << sharedScreen.use_count() << std::endl;*/
+		game->Render(screenRenderer);
 
-			auto now{ SDL_GetTicks() };
-			auto deltaTime{ now - lastTickTime };
-			auto time{ lastFpsTime + 1000 };
+		SDL_RenderCopy(screenRenderer, fontTexture, NULL, &fontDstRec);
 
-			if (time <= now)
-			{
-				lastFpsTime = now;
-				snprintf(fpsmessage, 255, "%d FPS", fpsCount);
-				fontTexture = font->CreateTextTexture(fpsmessage, SDL_Color{ 255, 0, 0,255 }, screenRenderer);
-				SDL_QueryTexture(fontTexture, NULL, NULL, &texW, &texH);
-				fontDstRec = { 0, 0, texW, texH };
-				fpsCount = 0;
-			}
-			++fpsCount;
+		SDL_RenderPresent(screenRenderer);
+		SDL_UpdateWindowSurface(window);
 
-			game->Update(deltaTime);
-
-			lastTickTime = now;
-
-			game->Render(screenRenderer);
-				
-			SDL_RenderCopy(screenRenderer, fontTexture, NULL, &fontDstRec);
-				
-			SDL_RenderPresent(screenRenderer);
-			SDL_UpdateWindowSurface(window);
-
-			//let the cpu sleep a litlle
-			SDL_Delay(30);
-		}
-
-		SDL_DestroyTexture(fontTexture);
-		delete game;
-		delete font;
+		//let the cpu sleep a litlle
+		SDL_Delay(30);
 	}
 
+	SDL_DestroyTexture(fontTexture);
+	SDL_DestroyWindow(window);
 	SDL_DestroyRenderer(screenRenderer);
+	delete game;
+	delete font;
+
 	return 0;
 }
