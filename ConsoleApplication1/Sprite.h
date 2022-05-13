@@ -6,6 +6,8 @@
 #include <string>
 #include <SDL_surface.h>
 #include <SDL_render.h>
+#include <SDL.h>
+#include <iostream>
 
 class Sprite
 {

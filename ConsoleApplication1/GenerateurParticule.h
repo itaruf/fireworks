@@ -6,6 +6,9 @@
 #include "Particule.h"
 #include "Vector.h"
 #include <vector>
+#include <iostream>
+#include <iterator>
+#include <algorithm>
 
 class GenerateurParticule
 {

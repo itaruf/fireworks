@@ -7,6 +7,11 @@
 #include "GenerateurParticule.h"
 #include <string>
 #include <vector>
+#include <SDL.h>
+#include <iostream>
+#include <SDL_scancode.h>
+#include "Font.h"
+#include <time.h>
 
 class IGameEntity;
 
@@ -27,8 +32,6 @@ public:
 	Game(const Game&) = delete;
 	Game(Game&&) = delete;
 	Game& operator=(const Game&) = delete;
-
-	void Release();
 
 	void Update(int deltaTime);
 

@@ -5,6 +5,8 @@
 
 #include "Vector.h"
 #include "Sprite.h"
+#include <SDL_image.h>
+#include <iostream>
 
 class Particule
 {
@@ -12,7 +14,7 @@ public:
 	Vector* _position;
 	Vector* _force;
 
-	Sprite* sprite;
+	Sprite* sprite{ nullptr };
 	int vie;
 	int taille;
 

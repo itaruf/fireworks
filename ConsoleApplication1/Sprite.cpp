@@ -1,6 +1,4 @@
 #include "Sprite.h"
-#include <SDL.h>
-#include <iostream>
 
 Sprite::Sprite(SDL_Texture* spriteImage): _spriteImage(spriteImage)
 {

@@ -1,11 +1,10 @@
 #include "GenerateurParticule.h"
-#include <iostream>
-#include <iterator>
 
 GenerateurParticule::~GenerateurParticule()
 {
 	std::cout << "GenerateurParticule Destructor Called" << std::endl;
-	
+	std::cout << _liste.size() << std::endl;
+
 	for (const auto& particule : _liste)
 		delete particule;
 	delete _position;
@@ -15,15 +14,15 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 	: _screenRenderer{ screenRenderer }, _nbParticulesMax{ nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{vieMin}, _vieMax{vieMax}, _position{position}, _tailleMin{tailleMin}, _tailleMax{tailleMax}, _force{force}, _angleMax{angleMax}
 {
 
-	_liste.reserve(_nbParticulesMax);
+	_liste.reserve(_nbParticulesRestantes);
 
-	for (int i = 0; i < _nbParticulesMax; ++i)
+	/*for (int i = 0; i < 5; ++i)
 	{
 		_liste.emplace_back(nullptr);
-	}
+	}*/
 
-	std::cout << _nbParticulesMax << std::endl;
-	std::cout << _liste.capacity() << std::endl;
+	/*std::cout << _nbParticulesMax << std::endl;
+	std::cout << _liste.capacity() << std::endl;*/
 
 	for (int i = 0; i < nbParticulesDebut; ++i)
 	{
@@ -53,14 +52,29 @@ void GenerateurParticule::AjouterParticule(int index)
 		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
 
 	//auto tmp = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
-	_liste[index] = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
+	_liste.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille));
+	std::cout << _liste.size() << std::endl;
 	//tmp = nullptr;
 	_nbParticulesRestantes--;
 }
 
 void GenerateurParticule::Update(int deltaTime)
 {
-	for (int i = 0; i < _nbParticulesMax; ++i)
+	for (auto particule : _liste)
+	{
+		if (particule)
+		{
+			particule->Update(deltaTime);
+			if (!particule->EstVivante())
+			{
+				_liste.erase(std::find(_liste.begin(), _liste.end(), particule));
+				delete particule;
+				if (GetNbParticulesActives() < _nbParticulesRestantes && EstActif())
+					AjouterParticule(0);
+			}
+		}
+	}
+	/*for (int i = 0; i < _liste.size(); ++i)
 	{
 		if (_liste[i])
 		{
@@ -68,12 +82,12 @@ void GenerateurParticule::Update(int deltaTime)
 			if (!_liste[i]->EstVivante())
 			{
 				delete _liste[i];
-				if (GetNbParticulesActives() < _nbParticulesMax && EstActif())
+				if (GetNbParticulesActives() < 5 && EstActif())
 					AjouterParticule(i);
 				
 			}
 		}
-	}
+	}*/
 
 	/*std::cout << _nbParticulesMax << std::endl;*/
 	/*std::cout << _liste.size() << std::endl;*/

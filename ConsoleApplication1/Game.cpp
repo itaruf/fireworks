@@ -1,13 +1,13 @@
 #include "Game.h"
-#include <SDL.h>
-#include <iostream>
-#include <SDL_scancode.h>
-#include "Font.h"
-#include <time.h>
-#include "GenerateurParticule.h"
+
 
 Game::~Game()
 {
+    std::cout << "GAME DESTRUCTOR CALLED " << std::endl;
+    for (const auto& generateur : _generateurs)
+    {
+        delete generateur;
+    }
 }
 
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer * screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ true }, _screenRenderer{ screenRenderer }
@@ -74,16 +74,16 @@ void Game::Update(int deltaTime)
 
     if (_isRunning)
     {
-        for (const auto& generateur : _generateurs) 
+        for (auto& generateur : _generateurs) 
         {
             if (!generateur)
                 continue;
 
             if (!generateur->EstActif())
             {
-                auto generateurTMP{ generateur };
-                _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateurTMP));
-                delete generateurTMP;
+                auto tmp = generateur;
+                _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), tmp));
+                delete tmp;
             }
             else
             {
@@ -107,16 +107,6 @@ void Game::Render(SDL_Renderer* screenRenderer)
         }
     }
 }
-
-void Game::Release()
-{
-    for (const auto& generateur : _generateurs)
-    {
-        delete generateur;
-    }
-    _generateurs.clear();
-}
-
 
 bool Game::IsRunning()
 {

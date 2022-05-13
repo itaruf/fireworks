@@ -1,10 +1,4 @@
-#include <iostream>
-#include <SDL.h>
-#include <SDL_Image.h>
-
-#include "Game.h"
-#include <SDL_ttf.h>
-#include "Font.h"
+#include "ConsoleApplication1.h"
 
 //Screen dimension constants
 int main(int argc, char* argv[])
@@ -102,8 +96,6 @@ int main(int argc, char* argv[])
 			//let the cpu sleep a litlle
 			SDL_Delay(30);
 		}
-
-		game->Release();
 
 		SDL_DestroyTexture(fontTexture);
 		delete game;
