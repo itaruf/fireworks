@@ -28,12 +28,16 @@ int main(int argc, char* argv[])
 	if (!renderer.renderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+		TTF_Quit();
+		SDL_Quit();
 		return 1;
 	}
 
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+		TTF_Quit();
+		SDL_Quit();
 		return 1;
 	}
 
@@ -44,46 +48,44 @@ int main(int argc, char* argv[])
 		std::cout << "Game could not be Initialized!" << std::endl;
 		TTF_Quit();
 		SDL_Quit();
-		return 1;
 	}
+	
+	else {
 
-	//dirty font for fps
+		SDL_Color color{ 255, 0, 0, 255 };
+		SDLTexture texture{ SDLTexture::FromSurface(renderer, "0 FPS", color) };
 
-	SDL_Color color{ 255, 0, 0, 255 };
-	SDLTexture texture{ SDLTexture::FromSurface(renderer, "0 FPS", color)};
+		while (game->IsRunning())
+		{
+			int texW{ 0 };
+			int texH{ 0 };
 
-	while (game->IsRunning())
-	{
-		int texW{ 0 };
-		int texH{ 0 };
+			char fpsmessage[255];
 
-		char fpsmessage[255];
+			//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
 
-		//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
+			Uint32 startTicks{ SDL_GetTicks() };
 
-		Uint32 startTicks{ SDL_GetTicks() };
+			//let the cpu sleep a litle
+			SDL_Delay(30);
 
-		//let the cpu sleep a litle
-		SDL_Delay(30);
+			Uint32 endTicks{ SDL_GetTicks() };
+			int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
 
-		Uint32 endTicks{ SDL_GetTicks() };
-		int elapsed{(int)(1.0f / ((endTicks - startTicks) / 1000.0f))};
+			snprintf(fpsmessage, 255, "%d FPS", elapsed);
+			texture = SDLTexture::FromSurface(renderer, fpsmessage, color);
+			SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
+			SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
-		snprintf(fpsmessage, 255, "%d FPS", elapsed);
-		texture = SDLTexture::FromSurface(renderer, fpsmessage, color);
-		SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
-		SDL_Rect fontDstRec{ 0, 0, texW, texH };
-
-		game->Update(elapsed);
-		game->Render(renderer.renderer);
-		SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
-		SDL_RenderPresent(renderer.renderer);
-		SDL_UpdateWindowSurface(window.window);
+			game->Update(elapsed);
+			game->Render(renderer.renderer);
+			SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
+			SDL_RenderPresent(renderer.renderer);
+			SDL_UpdateWindowSurface(window.window);
+		}
 	}
 
 	delete game;
-	/*delete font;*/
-
 
 	return 0;
 }
