@@ -4,9 +4,7 @@ Game::~Game()
 {
     std::cout << "GAME DESTRUCTOR CALLED " << std::endl;
     for (const auto& generateur : _generateurs)
-    {
         delete generateur;
-    }
 }
 
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
@@ -75,7 +73,7 @@ void Game::Update(int deltaTime)
 
     if (_isRunning && _generateurs.size() > 0)
     {
-        for (auto& generateur : _generateurs)
+        for (auto generateur : _generateurs)
         {
             if (!generateur)
                 continue;
@@ -100,7 +98,7 @@ void Game::Render(SDLRenderer& screenRenderer)
     if (_isRunning && _generateurs.size() > 0)
     {
         /*std::cout << _generateurs.size() << std::endl;*/
-        for (const auto& generateur : _generateurs)
+        for (const auto generateur : _generateurs)
         {
             if (!generateur)
                 continue;

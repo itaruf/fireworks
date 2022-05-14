@@ -6,6 +6,7 @@
 //#include "SDLTexture.hpp"
 #include <SDL.h>
 #include <string>
+#include <iostream>
 
 class SDLRenderer
 {

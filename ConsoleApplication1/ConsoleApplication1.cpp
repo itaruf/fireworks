@@ -1,5 +1,6 @@
 #include "ConsoleApplication1.h"
 
+void DeInitialize();
 //Screen dimension constants
 int main(int argc, char* argv[])
 {
@@ -19,8 +20,6 @@ int main(int argc, char* argv[])
 	if (!window.window)
 	{
 		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		TTF_Quit();
-		SDL_Quit();
 		return 1;
 	}
 
@@ -29,16 +28,14 @@ int main(int argc, char* argv[])
 	if (!renderer.renderer)
 	{
 		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		TTF_Quit();
-		SDL_Quit();
+		DeInitialize();
 		return 1;
 	}
 
 	if (!(IMG_Init(imgFlags) & imgFlags))
 	{
 		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-		TTF_Quit();
-		SDL_Quit();
+		DeInitialize();
 		return 1;
 	}
 
@@ -47,8 +44,7 @@ int main(int argc, char* argv[])
 	if (!game.IsRunning())
 	{
 		std::cout << "Game could not be Initialized!" << std::endl;
-		TTF_Quit();
-		SDL_Quit();
+		DeInitialize();
 	}
 	
 	else {
@@ -88,7 +84,12 @@ int main(int argc, char* argv[])
 		}
 	}
 
+	DeInitialize();
+	return 0;
+}
+
+void DeInitialize()
+{
 	TTF_Quit();
 	SDL_Quit();
-	return 0;
 }

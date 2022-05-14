@@ -12,6 +12,7 @@ SDLRenderer::SDLRenderer(SDLRenderer&& renderer) noexcept
 
 SDLRenderer::~SDLRenderer()
 {
+	std::cout << "SDL RENDERER DESTRUCTOR CALLED" << std::endl;
 	if (this->renderer)
 		SDL_DestroyRenderer(this->renderer);
 }

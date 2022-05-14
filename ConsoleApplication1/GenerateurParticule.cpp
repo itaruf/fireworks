@@ -18,9 +18,7 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 	_liste.reserve(nbParticulesTotal);
 
 	for (int i = 0; i < nbParticulesDebut; ++i)
-	{
 		AjouterParticule();
-	}
 }
 
 void GenerateurParticule::AjouterParticule()
