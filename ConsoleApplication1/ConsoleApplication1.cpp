@@ -20,75 +20,79 @@ int main(int argc, char* argv[])
 	if (!window.window)
 	{
 		std::cout << "Window could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		return 1;
+		goto exit;
 	}
 
-	SDLRenderer renderer{ window.CreateRenderer(-1, SDL_RENDERER_ACCELERATED) };
-
-	if (!renderer.renderer)
 	{
-		std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
-		DeInitialize();
-		return 1;
-	}
+		SDLRenderer renderer{ window.CreateRenderer(-1, SDL_RENDERER_ACCELERATED) };
 
-	if (!(IMG_Init(imgFlags) & imgFlags))
-	{
-		printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
-		DeInitialize();
-		return 1;
-	}
-
-	Game game{ true, 5, "blanc", 1, renderer.renderer };
-
-	if (!game.IsRunning())
-	{
-		std::cout << "Game could not be Initialized!" << std::endl;
-		DeInitialize();
-	}
-	
-	else {
-
-		SDL_Color color{ 255, 0, 0, 255 };
-
-		while (game.IsRunning())
+		if (!renderer.renderer)
 		{
-			int texW{ 0 };
-			int texH{ 0 };
+			std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
+			goto exit;
+		}
 
-			char fpsmessage[255];
+		if (!(IMG_Init(imgFlags) & imgFlags))
+		{
+			printf("SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError());
+			goto exit;
+		}
 
-			//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
+		{
+			Game game{ true, 5, "blanc", 1, renderer.renderer };
 
-			Uint32 startTicks{ SDL_GetTicks() };
+			if (!game.IsRunning())
+			{
+				std::cout << "Game could not be Initialized!" << std::endl;
+				goto exit;
+			}
 
-			//let the cpu sleep a litle
-			SDL_Delay(15); // 60 fps
+			else {
 
-			Uint32 endTicks{ SDL_GetTicks() };
-			int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
+				SDL_Color color{ 255, 0, 0, 255 };
 
-			/*std::cout << renderer.renderer << std::endl;*/
-			/*std::cout << &renderer << std::endl;*/
+				while (game.IsRunning())
+				{
+					int texW{ 0 };
+					int texH{ 0 };
 
-			snprintf(fpsmessage, 255, "%d FPS", elapsed);
-			SDLTexture texture{ SDLTexture::FromSurface(renderer, fpsmessage, color) };
-			SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
-			SDL_Rect fontDstRec{ 0, 0, texW, texH };
+					char fpsmessage[255];
 
-			game.Update(elapsed);
-			game.Render(renderer);
-			SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
-			SDL_RenderPresent(renderer.renderer);
-			SDL_UpdateWindowSurface(window.window);
+					//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
+
+					Uint32 startTicks{ SDL_GetTicks() };
+
+					//let the cpu sleep a litle
+					SDL_Delay(15); // 60 fps
+
+					Uint32 endTicks{ SDL_GetTicks() };
+					int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
+
+					/*std::cout << renderer.renderer << std::endl;*/
+					/*std::cout << &renderer << std::endl;*/
+
+					snprintf(fpsmessage, 255, "%d FPS", elapsed);
+					SDLTexture texture{ SDLTexture::FromSurface(renderer, fpsmessage, color) };
+					SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
+					SDL_Rect fontDstRec{ 0, 0, texW, texH };
+
+					game.Update(elapsed);
+					game.Render(renderer);
+					SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
+					SDL_RenderPresent(renderer.renderer);
+					SDL_UpdateWindowSurface(window.window);
+				}
+				goto exit;
+			}
 		}
 	}
 
+exit:
 	DeInitialize();
 	return 0;
 }
 
-void DeInitialize()
+inline void DeInitialize()
 {
 	TTF_Quit();
 	SDL_Quit();
