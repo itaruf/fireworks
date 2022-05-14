@@ -15,14 +15,7 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 {
 
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
-
-	/*std::cout << screenRenderer << std::endl;
-	std::cout << _screenRenderer << std::endl;*/
-
-	_liste.reserve(_nbParticulesRestantes);
-
-	/*std::cout << _nbParticulesMax << std::endl;
-	std::cout << _liste.capacity() << std::endl;*/
+	_liste.reserve(nbParticulesTotal);
 
 	for (int i = 0; i < nbParticulesDebut; ++i)
 	{
@@ -44,10 +37,7 @@ void GenerateurParticule::AjouterParticule()
 	if (_tailleMin != _tailleMax)
 		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
 
-	//auto tmp = new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille);
 	_liste.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, new Vector(_position->x, _position->y), new Vector(-_force * sin(angle), _force * cos(angle)), taille));
-	/*std::cout << _liste.size() << std::endl;*/
-	//tmp = nullptr;
 	_nbParticulesRestantes--;
 }
 
@@ -79,7 +69,7 @@ int GenerateurParticule::GetNbParticulesActives()
 	return nb;
 }
 
-void GenerateurParticule::Render(SDL_Renderer* screenRenderer)
+void GenerateurParticule::Render(SDLRenderer& screenRenderer)
 {
 	for (const auto& particule : _liste)
 		if (particule)

@@ -7,6 +7,7 @@
 
 #include "Vector.h"
 #include "Sprite.h"
+#include "SDLRenderer.h"
 
 class Particule
 {
@@ -29,7 +30,7 @@ public:
 
 	void Update(int deltaTime);
 
-	void Render(SDL_Renderer* screenRenderer);
+	void Render(SDLRenderer& screenRenderer);
 
 	bool EstVivante();
 };

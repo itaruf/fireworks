@@ -8,6 +8,7 @@ int main(int argc, char* argv[])
 	if (SDL_Init(SDL_INIT_VIDEO) != 0) 
 	{
 		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
+		SDL_Quit();
 		return 1;
 	}
 	TTF_Init();
@@ -41,9 +42,9 @@ int main(int argc, char* argv[])
 		return 1;
 	}
 
-	Game* game{ new Game(true, 5, "blanc", 1, renderer.renderer) };
+	Game game{ true, 5, "blanc", 1, renderer.renderer };
 
-	if (!game->IsRunning())
+	if (!game.IsRunning())
 	{
 		std::cout << "Game could not be Initialized!" << std::endl;
 		TTF_Quit();
@@ -53,9 +54,8 @@ int main(int argc, char* argv[])
 	else {
 
 		SDL_Color color{ 255, 0, 0, 255 };
-		SDLTexture texture{ SDLTexture::FromSurface(renderer, "0 FPS", color) };
 
-		while (game->IsRunning())
+		while (game.IsRunning())
 		{
 			int texW{ 0 };
 			int texH{ 0 };
@@ -67,25 +67,28 @@ int main(int argc, char* argv[])
 			Uint32 startTicks{ SDL_GetTicks() };
 
 			//let the cpu sleep a litle
-			SDL_Delay(30);
+			SDL_Delay(15); // 60 fps
 
 			Uint32 endTicks{ SDL_GetTicks() };
 			int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
 
+			/*std::cout << renderer.renderer << std::endl;*/
+			/*std::cout << &renderer << std::endl;*/
+
 			snprintf(fpsmessage, 255, "%d FPS", elapsed);
-			texture = SDLTexture::FromSurface(renderer, fpsmessage, color);
+			SDLTexture texture{ SDLTexture::FromSurface(renderer, fpsmessage, color) };
 			SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
 			SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
-			game->Update(elapsed);
-			game->Render(renderer.renderer);
+			game.Update(elapsed);
+			game.Render(renderer);
 			SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
 			SDL_RenderPresent(renderer.renderer);
 			SDL_UpdateWindowSurface(window.window);
 		}
 	}
 
-	delete game;
-
+	TTF_Quit();
+	SDL_Quit();
 	return 0;
 }

@@ -88,9 +88,9 @@ void Particule::Update(int deltaTime)
 	std::cout << newPosition << std::endl;*/
 }
 
-void Particule::Render(SDL_Renderer* screenRenderer)
+void Particule::Render(SDLRenderer& screenRenderer)
 {
-	if (!screenRenderer)
+	if (!screenRenderer.renderer)
 		return;
 
 	if (!_position)
@@ -99,7 +99,7 @@ void Particule::Render(SDL_Renderer* screenRenderer)
 	unsigned char alpha{ 0 };
 	if (vie > vieActuelle)
 		alpha = (255 * (vie - vieActuelle)) / vie;
-	sprite->Render(screenRenderer, _position->x, _position->y, taille, taille, alpha);
+	sprite->Render(screenRenderer.renderer, _position->x, _position->y, taille, taille, alpha);
 }
 
 bool Particule::EstVivante()

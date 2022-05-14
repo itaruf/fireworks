@@ -4,7 +4,7 @@ SDLRenderer::SDLRenderer(SDL_Renderer* renderer) : renderer(renderer)
 {
 }
 
-SDLRenderer::SDLRenderer(SDLRenderer&& renderer)
+SDLRenderer::SDLRenderer(SDLRenderer&& renderer) noexcept
 {
 	this->renderer = renderer.renderer;
 	renderer.renderer = nullptr;
@@ -16,7 +16,7 @@ SDLRenderer::~SDLRenderer()
 		SDL_DestroyRenderer(this->renderer);
 }
 
-SDLRenderer& SDLRenderer::operator=(SDLRenderer&& other)
+SDLRenderer& SDLRenderer::operator=(SDLRenderer&& other) noexcept
 {
 	if (this == &other)
 		return *this;

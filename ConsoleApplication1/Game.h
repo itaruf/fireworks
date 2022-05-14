@@ -12,6 +12,7 @@
 
 #include <time.h>
 #include <random>
+#include "SDLRenderer.h"
 
 class Game
 {
@@ -33,7 +34,7 @@ public:
 
 	void Update(int deltaTime);
 
-	void Render(SDL_Renderer* screenRenderer);
+	void Render(SDLRenderer& screenRenderer);
 
 	bool IsRunning();
 

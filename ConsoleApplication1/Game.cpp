@@ -12,7 +12,10 @@ Game::~Game()
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
     std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;
-    /*srand((unsigned int)time(NULL));*/
+
+    std::cout << screenRenderer << std::endl;
+    std::cout << _screenRenderer << std::endl;
+
     /*std::cout << std::addressof(screenRenderer) << std::endl;
     std::cout << std::addressof(_screenRenderer) << std::endl;*/
     /*std::cout << screenRenderer << std::endl;
@@ -72,7 +75,6 @@ void Game::Update(int deltaTime)
 
     if (_isRunning && _generateurs.size() > 0)
     {
-        /*std::cout << _generateurs.size() << std::endl;*/
         for (auto& generateur : _generateurs)
         {
             if (!generateur)
@@ -89,9 +91,11 @@ void Game::Update(int deltaTime)
     }
 }
 
-void Game::Render(SDL_Renderer* screenRenderer)
+void Game::Render(SDLRenderer& screenRenderer)
 {
-    SDL_RenderClear(screenRenderer);
+    SDL_RenderClear(screenRenderer.renderer);
+
+    /*std::cout << screenRenderer.renderer << std::endl;*/
 
     if (_isRunning && _generateurs.size() > 0)
     {
@@ -118,6 +122,7 @@ void Game::CreerGenerateurParticule(int posX, int posY)
         delete generateur;
     }
 
+    //https://www.gormanalysis.com/blog/random-numbers-in-cpp/
     std::random_device myRandomDevice;
     unsigned seed = myRandomDevice();
     std::default_random_engine myRandomEngine(seed);

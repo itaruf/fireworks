@@ -20,7 +20,7 @@ public:
 	~SDLTexture();
 
 	SDLTexture& operator=(const SDLTexture&) = delete;
-	SDLTexture& operator=(SDLTexture&& texture);
+	SDLTexture& operator=(SDLTexture&& texture) noexcept;
 
 	static SDLTexture FromSurface(const SDLRenderer& renderer, std::string message, SDL_Color& color);
 

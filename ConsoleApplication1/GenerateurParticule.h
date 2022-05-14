@@ -8,6 +8,7 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include "SDLRenderer.h"
 
 class GenerateurParticule
 {
@@ -38,7 +39,7 @@ public:
 
 	int GetNbParticulesActives();
 
-	void Render(SDL_Renderer* screenRenderer);
+	void Render(SDLRenderer& screenRenderer);
 
 	Particule* GetPooledParticule();
 

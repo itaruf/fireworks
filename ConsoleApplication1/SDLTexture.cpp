@@ -16,7 +16,7 @@ SDLTexture::~SDLTexture()
 		SDL_DestroyTexture(_texture);
 }
 
-SDLTexture& SDLTexture::operator=(SDLTexture&& other)
+SDLTexture& SDLTexture::operator=(SDLTexture&& other) noexcept
 {
 	/*std::cout << "MOVE ASSIGNMENT OPERATOR CALLLED" << std::endl;*/
 
@@ -38,6 +38,8 @@ SDLTexture SDLTexture::FromSurface(const SDLRenderer& renderer, std::string mess
 
 	SDL_Surface* surfaceMessage{ TTF_RenderText_Blended_Wrapped(font->_font, std::move(message.c_str()), color, 255) };
 	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer.renderer, surfaceMessage);
+
+	/*std::cout << texture << std::endl;*/
 
 	if (!texture)
 		throw std::runtime_error(std::string("failed to create texture from surface: ") + SDL_GetError());
