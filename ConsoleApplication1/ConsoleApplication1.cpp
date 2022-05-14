@@ -1,6 +1,5 @@
 #include "ConsoleApplication1.h"
 
-void DeInitialize();
 //Screen dimension constants
 int main(int argc, char* argv[])
 {
@@ -10,7 +9,7 @@ int main(int argc, char* argv[])
 	{
 		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
 		SDL_Quit();
-		return 1;
+		return 0;
 	}
 	TTF_Init();
 
@@ -56,8 +55,6 @@ int main(int argc, char* argv[])
 					int texW{ 0 };
 					int texH{ 0 };
 
-					char fpsmessage[255];
-
 					//https://thenumbat.github.io/cpp-course/sdl2/08/08.html
 
 					Uint32 startTicks{ SDL_GetTicks() };
@@ -68,8 +65,8 @@ int main(int argc, char* argv[])
 					Uint32 endTicks{ SDL_GetTicks() };
 					int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
 
-					snprintf(fpsmessage, 255, "%d FPS", elapsed);
-					SDLTexture texture{ SDLTexture::FromSurface(renderer, fpsmessage, color) };
+					std::string message = std::to_string(elapsed) + " FPS";
+					SDLTexture texture{ SDLTexture::FromSurface(renderer, std::move(message), color) };
 					SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
 					SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
@@ -85,15 +82,10 @@ int main(int argc, char* argv[])
 	}
 
 exit:
-	DeInitialize();
+	TTF_Quit();
+	SDL_Quit();
 
 	Sleep(1000);
 
 	return 0;
-}
-
-inline void DeInitialize()
-{
-	TTF_Quit();
-	SDL_Quit();
 }
