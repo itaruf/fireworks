@@ -8,31 +8,33 @@
 #include "Vector.h"
 #include "Sprite.h"
 #include "SDLRenderer.h"
+#include <memory>
 
 class Particule
 {
 public:
-	Vector* _position;
-	Vector* _force;
-
+	std::unique_ptr<Vector> _position;
+	std::unique_ptr<Vector> _force;
 	Sprite* sprite{ nullptr };
 	int vie;
 	int taille;
-
 	int vieActuelle;
-
 	const float GRAVITE = 980;
 
-	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, Vector* _position, Vector* _force, int taille);
+	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille);
 	Particule& operator=(Particule*&& other) noexcept;
-	
 	~Particule();
 
 	void Update(int deltaTime);
-
 	void Render(SDLRenderer& screenRenderer);
-
 	bool EstVivante();
 };
+
+inline bool Particule::EstVivante()
+{
+	if (vie > vieActuelle)
+		return true;
+	return false;
+}
 
 #endif PARTICULE_H

@@ -1,7 +1,7 @@
 #include "Particule.h"
 
-Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, Vector* _position, Vector* _force, int taille) 
-	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position }, _force{ _force }, taille{ taille }
+Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille) 
+	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position.release() }, _force{ _force.release() }, taille{ taille }
 {
 	/*std::cout << "Particule Constructor called" << std::endl;*/
 	/*std::cout << screenRenderer << std::endl;*/
@@ -55,8 +55,6 @@ Particule::~Particule()
 {
 	/*std::cout << "PARTICULE DESTRUCTOR CALLED" << std::endl;*/
 	delete sprite;
-	delete _force;
-	delete _position;
 }
 
 void Particule::Update(int deltaTime)
@@ -100,11 +98,4 @@ void Particule::Render(SDLRenderer& screenRenderer)
 	if (vie > vieActuelle)
 		alpha = (255 * (vie - vieActuelle)) / vie;
 	sprite->Render(screenRenderer.renderer, _position->x, _position->y, taille, taille, alpha);
-}
-
-bool Particule::EstVivante()
-{
-	if (vie > vieActuelle)
-		return true;
-	return false;
 }

@@ -33,11 +33,8 @@ public:
 	Game& operator=(const Game&) = delete;
 
 	void Update(int deltaTime);
-
 	void Render(SDLRenderer& screenRenderer);
-
 	bool IsRunning();
-
 	void CreerGenerateurParticule(int posX, int posY);
 };
 

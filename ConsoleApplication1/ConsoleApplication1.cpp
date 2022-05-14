@@ -68,9 +68,6 @@ int main(int argc, char* argv[])
 					Uint32 endTicks{ SDL_GetTicks() };
 					int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
 
-					/*std::cout << renderer.renderer << std::endl;*/
-					/*std::cout << &renderer << std::endl;*/
-
 					snprintf(fpsmessage, 255, "%d FPS", elapsed);
 					SDLTexture texture{ SDLTexture::FromSurface(renderer, fpsmessage, color) };
 					SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
@@ -89,6 +86,9 @@ int main(int argc, char* argv[])
 
 exit:
 	DeInitialize();
+
+	Sleep(1000);
+
 	return 0;
 }
 

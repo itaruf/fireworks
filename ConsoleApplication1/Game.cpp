@@ -11,8 +11,8 @@ Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SD
 {
     std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;
 
-    std::cout << screenRenderer << std::endl;
-    std::cout << _screenRenderer << std::endl;
+    /*std::cout << screenRenderer << std::endl;
+    std::cout << _screenRenderer << std::endl;*/
 
     /*std::cout << std::addressof(screenRenderer) << std::endl;
     std::cout << std::addressof(_screenRenderer) << std::endl;*/
@@ -125,9 +125,6 @@ void Game::CreerGenerateurParticule(int posX, int posY)
     unsigned seed = myRandomDevice();
     std::default_random_engine myRandomEngine(seed);
 
-    Vector* position{ new Vector(posX, posY) };
-    auto generateur{ new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, position, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90) };
+    auto generateur{ new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, std::make_unique<Vector>(posX, posY), 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90) };
     _generateurs.emplace_back(generateur);
-
-    position = nullptr;
 }
