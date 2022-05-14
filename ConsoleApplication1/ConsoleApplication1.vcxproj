@@ -24,6 +24,9 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GenerateurParticule.cpp" />
     <ClCompile Include="Particule.cpp" />
+    <ClCompile Include="SDLRenderer.cpp" />
+    <ClCompile Include="SDLTexture.cpp" />
+    <ClCompile Include="SDLWindow.cpp" />
     <ClCompile Include="Sprite.cpp" />
     <ClCompile Include="Vector.cpp" />
   </ItemGroup>
@@ -33,6 +36,9 @@
     <ClInclude Include="Game.h" />
     <ClInclude Include="GenerateurParticule.h" />
     <ClInclude Include="Particule.h" />
+    <ClInclude Include="SDLRenderer.h" />
+    <ClInclude Include="SDLTexture.h" />
+    <ClInclude Include="SDLWindow.h" />
     <ClInclude Include="Sprite.h" />
     <ClInclude Include="Vector.h" />
   </ItemGroup>
