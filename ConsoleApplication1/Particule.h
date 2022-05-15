@@ -5,9 +5,10 @@
 
 #include <SDL_image.h>
 
+#include "SDLRenderer.h"
 #include "Vector.h"
 #include "Sprite.h"
-#include "SDLRenderer.h"
+
 #include <memory>
 
 class Particule

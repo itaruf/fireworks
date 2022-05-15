@@ -13,7 +13,7 @@ Sprite::Sprite(Sprite*&& sprite) noexcept
 {
     std::cout << "SPRITE MOVE CONSTRUCTOR CALLED" << std::endl;
     _spriteImage = sprite->_spriteImage;
-    delete sprite->_spriteImage;
+    SDL_DestroyTexture(sprite->_spriteImage);
 }
 
 
@@ -25,7 +25,7 @@ Sprite& Sprite::operator=(Sprite&& other) noexcept
         return *this;
 
     if (_spriteImage)
-        delete _spriteImage;
+        SDL_DestroyTexture(_spriteImage);
 
     _spriteImage = other._spriteImage;
     other._spriteImage = nullptr;
@@ -55,12 +55,4 @@ void Sprite::SetSprite(SDL_Texture* sprite)
 {
     _spriteImage = sprite;
     sprite = nullptr;
-
-    /*if (_spriteImage)
-        delete _spriteImage;
-    else 
-    {
-        
-    }
-    sprite = nullptr;*/
 }

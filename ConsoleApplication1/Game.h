@@ -3,16 +3,14 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include <SDL_render.h>
-#include <SDL.h>
 #include <SDL_scancode.h>
 
 #include "GenerateurParticule.h"
+#include "SDLRenderer.h"
 #include "Font.h"
 
 #include <time.h>
 #include <random>
-#include "SDLRenderer.h"
 
 class Game
 {

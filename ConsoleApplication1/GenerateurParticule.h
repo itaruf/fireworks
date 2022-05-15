@@ -8,8 +8,6 @@
 #include <vector>
 #include <iterator>
 #include <algorithm>
-#include "SDLRenderer.h"
-#include <memory>
 
 class GenerateurParticule
 {
