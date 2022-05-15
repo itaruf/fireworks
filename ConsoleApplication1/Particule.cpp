@@ -3,59 +3,11 @@
 Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille, std::shared_ptr<Sprite>& sprite) 
 	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position.release() }, _force{ _force.release() }, taille{ taille }, sprite{sprite}
 {
-	/*std::cout << "Particule Constructor called" << std::endl;*/
-	/*std::cout << screenRenderer << std::endl;*/
-
-	//Load image at specified path
-	/*SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };	*/	
-
-	/*if (!loadedSurface)
-	{
-		printf("Unable to load image %s! SDL_image Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), IMG_GetError());
-	}*/
-
-	//Create texture from surface pixels
-	/*else 
-	{
-		sprite = new Sprite(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
-		if (!sprite->GetSprite())
-		{
-			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
-		}
-	}*/
-	//Get rid of old loaded surface
-	/*SDL_FreeSurface(loadedSurface);*/
-}
-
-
-// Move assignment constructor
-Particule& Particule::operator=(Particule*&& other) noexcept
-{
-	std::cout << "Particule Move Constructor Assignement called" << std::endl;
-
-	/*if (this != other)
-	{
-		delete sprite;
-		delete _force;
-		delete _position;
-
-		this->sprite = other->sprite;
-		this->vie = other->vie * 1000;
-		this->vieActuelle = other->vieActuelle;
-		this->_position = other->_position;
-		this->_force = other->_force;
-		this->taille = other->taille;
-
-		other->_position = nullptr;
-	}*/
-
-	return *this;
 }
 
 Particule::~Particule()
 {
 	/*std::cout << "PARTICULE DESTRUCTOR CALLED" << std::endl;*/
-	/*delete sprite;*/
 }
 
 void Particule::Update(int deltaTime)

@@ -54,7 +54,9 @@ inline int Sprite::GetHeight() const
 }
 inline SDL_Texture* Sprite::GetSprite()
 {
-	return _spriteImage;
+	if (_spriteImage)
+		return _spriteImage;
+	return nullptr;
 }
 
 #endif SPRITE_H

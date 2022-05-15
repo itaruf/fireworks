@@ -28,7 +28,6 @@ public:
 	int _tailleMax;
 	int _force;
 	int _angleMax;
-
 	std::shared_ptr<Sprite> sprite{ nullptr };
 
 	~GenerateurParticule();
@@ -36,17 +35,10 @@ public:
 		int vieMin, int vieMax, std::unique_ptr<Vector> position, int tailleMin, int tailleMax, int force, int angleMax);
 
 	bool EstActif();
-
-	void AjouterParticule(int i);
-
+	void AjouterParticule();
 	void Update(int deltaTime);
-
 	int GetNbParticulesActives();
-
 	void Render(SDLRenderer& screenRenderer);
-
-	Particule* GetPooledParticule();
-
 };
 
 inline bool GenerateurParticule::EstActif()
