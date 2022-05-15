@@ -9,8 +9,8 @@ GenerateurParticule::~GenerateurParticule()
 	_particles.clear();
 }
 
-GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
-	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? ++nbParticulesDebut : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesTotal ? nbParticulesTotal : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
+GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesRestantes, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
+	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? nbParticulesDebut++ : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesRestantes ? nbParticulesRestantes : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesRestantes }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
 {
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
 	_particles.reserve(_nbParticulesMax);
@@ -26,15 +26,15 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 	//Create texture from surface pixels
 	else
 	{
-		sprite = std::make_shared<Sprite>(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
-		if (!sprite)
+		_sprite = std::make_shared<Sprite>(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
+		if (!_sprite)
 			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
 	}
 
 	/*Get rid of old loaded surface*/
 	SDL_FreeSurface(loadedSurface);
 
-	for (int i = 0; i < nbParticulesDebut; ++i)
+	for (int i = 0; i < _nbParticulesDebut; ++i)
 		AjouterParticule();
 
 	/*std::cout << _particles.size() << std::endl;
@@ -58,7 +58,7 @@ void GenerateurParticule::AjouterParticule()
 	Vector pos{ _position.x, _position.y };
 	Vector force{ static_cast<int>( -_force * sin(angle)), static_cast<int>(_force * cos(angle)) };
 
-	_particles.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, pos, force, taille, sprite));
+	_particles.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, pos, force, taille, _sprite));
 	_nbParticulesRestantes--;
 }
 

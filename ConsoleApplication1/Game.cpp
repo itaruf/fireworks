@@ -81,7 +81,6 @@ void Game::Update(int deltaTime)
 
             if (!generateur->EstActif())
             {
-                std::cout << "HERE" << std::endl;
                 _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateur));
                 delete generateur;
             }

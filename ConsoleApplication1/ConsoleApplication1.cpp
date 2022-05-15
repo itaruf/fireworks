@@ -41,14 +41,10 @@ int main(int argc, char* argv[])
 			Game* game{ new Game(true, 5, "blanc", 1, renderer.renderer) };
 
 			if (!game->IsRunning())
-			{
 				std::cout << "Game could not be Initialized!" << std::endl;				
-				delete game;
-				goto exit;
-			}
 
-			else {
-
+			else 
+			{
 				SDL_Color color{ 255, 0, 0, 255 };
 
 				while (game->IsRunning())
@@ -77,10 +73,9 @@ int main(int argc, char* argv[])
 					SDL_RenderPresent(renderer.renderer);
 					SDL_UpdateWindowSurface(window.window);
 				}
-
-				delete game;
-				goto exit;
 			}
+			delete game;
+			goto exit;
 		}
 	}
 

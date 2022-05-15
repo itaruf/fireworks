@@ -13,19 +13,19 @@ Particule::~Particule()
 void Particule::Update(int deltaTime)
 {
 	vieActuelle += deltaTime;
-	Vector newPosition{_position.x + _force.x * deltaTime / 1000, _position.y + _force.y * deltaTime / 1000};
+	Vector pos{_position.x + _force.x * deltaTime / 1000, _position.y + _force.y * deltaTime / 1000};
 
 	//gravité
 	_force.y += deltaTime * GRAVITE / 1000;
 
 	//rebond
-	if (newPosition.y + taille / 2 >= 720)
+	if (pos.y + taille / 2 >= 720)
 	{
-		newPosition.y = 720 - (newPosition.y - 720);
+		pos.y = 720 - (pos.y - 720);
 		_force.y *= - 0.8f;
 	}
-	_position.x = newPosition.x;
-	_position.y = newPosition.y;
+	_position.x = pos.x;
+	_position.y = pos.y;
 }
 
 void Particule::Render(SDLRenderer& screenRenderer)

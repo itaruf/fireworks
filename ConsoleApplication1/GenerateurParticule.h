@@ -26,7 +26,7 @@ public:
 	int _tailleMax;
 	int _force;
 	int _angleMax;
-	std::shared_ptr<Sprite> sprite{ nullptr };
+	std::shared_ptr<Sprite> _sprite{ nullptr };
 
 	~GenerateurParticule();
 	GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
