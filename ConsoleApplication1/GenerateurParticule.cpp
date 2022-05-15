@@ -7,20 +7,24 @@ GenerateurParticule::~GenerateurParticule()
 }
 
 GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, std::unique_ptr<Vector> position, int tailleMin, int tailleMax, int force, int angleMax)
-	: _screenRenderer{ screenRenderer }, _nbParticulesMax{ nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{vieMin}, _vieMax{vieMax}, _position{position.release()}, _tailleMin{tailleMin}, _tailleMax{tailleMax}, _force{force}, _angleMax{angleMax}
+	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? ++nbParticulesDebut : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesTotal ? nbParticulesTotal : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position.release() }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
 {
-
-	if (nbParticulesMax > nbParticulesTotal)
-		_nbParticulesMax = _nbParticulesRestantes;
-
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
-	_liste.reserve(nbParticulesTotal);
+	_liste.reserve(_nbParticulesMax);
 
-	for (int i = 0; i < nbParticulesDebut; ++i)
-		AjouterParticule();
+	std::cout << _nbParticulesDebut << std::endl;
+	std::cout << _nbParticulesMax << std::endl;
+
+	for (int i = 0; i < _nbParticulesMax; ++i)
+	{
+		_liste.emplace_back(nullptr);
+	}
+
+	for (int i = 0; i < _nbParticulesDebut; ++i)
+		AjouterParticule(0);
 }
 
-void GenerateurParticule::AjouterParticule()
+void GenerateurParticule::AjouterParticule(int i)
 {
 	int angle{ 0 };
 	if (_angleMax != 0)
@@ -34,21 +38,21 @@ void GenerateurParticule::AjouterParticule()
 	if (_tailleMin != _tailleMax)
 		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
 
-	_liste.emplace_back(std::make_unique<Particule>(_screenRenderer, _modele, _couleur, vie, std::make_unique<Vector>(_position->x, _position->y), std::make_unique<Vector>(-_force * sin(angle), _force * cos(angle)), taille));
+	_liste[i] = std::make_unique<Particule>(_screenRenderer, _modele, _couleur, vie, std::make_unique<Vector>(_position->x, _position->y), std::make_unique<Vector>(-_force * sin(angle), _force * cos(angle)), taille);
+
+	std::cout << _liste.size() << std::endl;
+
 	_nbParticulesRestantes--;
 }
 
 void GenerateurParticule::Update(int deltaTime)
 {
-	for (auto& particule : _liste)
+	for (int i = 0; i < _nbParticulesMax; ++i)
 	{
-		particule->Update(deltaTime);
-		if (!particule->EstVivante())
-		{
-			_liste.erase(std::find(_liste.begin(), _liste.end(), particule));
+		if (!_liste[i] || !_liste[i]->EstVivante())
 			if (GetNbParticulesActives() < _nbParticulesRestantes && EstActif())
-				AjouterParticule();
-		}
+				AjouterParticule(i);
+		_liste[i]->Update(deltaTime);
 	}
 }
 

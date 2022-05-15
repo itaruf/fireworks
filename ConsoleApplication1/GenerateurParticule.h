@@ -17,6 +17,7 @@ public:
 	std::vector<std::unique_ptr<Particule>> _liste;
 	int _nbParticulesMax;
 	int _nbParticulesRestantes;
+	int _nbParticulesDebut;
 	std::string _modele;
 	std::string _couleur;
 	SDL_Renderer* _screenRenderer;
@@ -34,7 +35,7 @@ public:
 
 	bool EstActif();
 
-	void AjouterParticule();
+	void AjouterParticule(int i);
 
 	void Update(int deltaTime);
 
