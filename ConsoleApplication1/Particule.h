@@ -15,13 +15,13 @@ class Particule
 public:
 	std::unique_ptr<Vector> _position;
 	std::unique_ptr<Vector> _force;
-	Sprite* sprite{ nullptr };
+	std::shared_ptr<Sprite> sprite;
 	int vie;
 	int taille;
 	int vieActuelle;
 	const float GRAVITE = 980;
 
-	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille);
+	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille, std::shared_ptr<Sprite>& sprite);
 	Particule& operator=(Particule*&& other) noexcept;
 	~Particule();
 

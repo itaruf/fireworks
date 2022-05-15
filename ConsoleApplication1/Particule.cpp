@@ -1,31 +1,32 @@
 #include "Particule.h"
 
-Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille) 
-	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position.release() }, _force{ _force.release() }, taille{ taille }
+Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille, std::shared_ptr<Sprite>& sprite) 
+	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position.release() }, _force{ _force.release() }, taille{ taille }, sprite{sprite}
 {
 	/*std::cout << "Particule Constructor called" << std::endl;*/
 	/*std::cout << screenRenderer << std::endl;*/
 
 	//Load image at specified path
-	SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };		
+	/*SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };	*/	
 
-	if (!loadedSurface)
+	/*if (!loadedSurface)
 	{
 		printf("Unable to load image %s! SDL_image Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), IMG_GetError());
-	}
+	}*/
 
 	//Create texture from surface pixels
-	else 
+	/*else 
 	{
 		sprite = new Sprite(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
 		if (!sprite->GetSprite())
 		{
 			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
 		}
-	}
+	}*/
 	//Get rid of old loaded surface
-	SDL_FreeSurface(loadedSurface);
+	/*SDL_FreeSurface(loadedSurface);*/
 }
+
 
 // Move assignment constructor
 Particule& Particule::operator=(Particule*&& other) noexcept
@@ -54,7 +55,7 @@ Particule& Particule::operator=(Particule*&& other) noexcept
 Particule::~Particule()
 {
 	/*std::cout << "PARTICULE DESTRUCTOR CALLED" << std::endl;*/
-	delete sprite;
+	/*delete sprite;*/
 }
 
 void Particule::Update(int deltaTime)
@@ -80,8 +81,8 @@ void Particule::Update(int deltaTime)
 	_position->x = newPosition->x;
 	_position->y = newPosition->y;
 
-	/*newPosition = nullptr;*/
-	delete newPosition;
+	newPosition = nullptr;
+	/*delete newPosition;*/
 	/*std::cout << _position << std::endl;
 	std::cout << newPosition << std::endl;*/
 }
@@ -97,5 +98,5 @@ void Particule::Render(SDLRenderer& screenRenderer)
 	unsigned char alpha{ 0 };
 	if (vie > vieActuelle)
 		alpha = (255 * (vie - vieActuelle)) / vie;
-	sprite->Render(screenRenderer.renderer, _position->x, _position->y, taille, taille, alpha);
+	sprite.get()->Render(screenRenderer.renderer, _position->x, _position->y, taille, taille, alpha);
 }
