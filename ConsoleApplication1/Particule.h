@@ -13,15 +13,15 @@
 class Particule
 {
 public:
-	std::unique_ptr<Vector> _position;
-	std::unique_ptr<Vector> _force;
+	Vector _position;
+	Vector _force;
 	std::shared_ptr<Sprite> sprite;
 	int vie;
 	int taille;
 	int vieActuelle;
 	const float GRAVITE = 980;
 
-	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, std::unique_ptr<Vector> _position, std::unique_ptr<Vector> _force, int taille, std::shared_ptr<Sprite>& sprite);
+	Particule(SDL_Renderer* renderer, std::string _modele, std::string _couleur, int vie, Vector& _position, Vector& _force, int taille, std::shared_ptr<Sprite>& sprite);
 	~Particule();
 
 	void Update(int deltaTime);

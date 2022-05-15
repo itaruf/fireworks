@@ -9,8 +9,8 @@ GenerateurParticule::~GenerateurParticule()
 	_particles.clear();
 }
 
-GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, std::unique_ptr<Vector> position, int tailleMin, int tailleMax, int force, int angleMax)
-	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? ++nbParticulesDebut : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesTotal ? nbParticulesTotal : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position.release() }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
+GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
+	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? ++nbParticulesDebut : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesTotal ? nbParticulesTotal : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesTotal }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
 {
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
 	_particles.reserve(_nbParticulesMax);
@@ -55,7 +55,10 @@ void GenerateurParticule::AjouterParticule()
 	if (_tailleMin != _tailleMax)
 		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
 
-	_particles.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, std::make_unique<Vector>(_position->x, _position->y), std::make_unique<Vector>(-_force * sin(angle), _force * cos(angle)), taille, sprite));
+	Vector pos{ _position.x, _position.y };
+	Vector force{ static_cast<int>( -_force * sin(angle)), static_cast<int>(_force * cos(angle)) };
+
+	_particles.emplace_back(new Particule(_screenRenderer, _modele, _couleur, vie, pos, force, taille, sprite));
 	_nbParticulesRestantes--;
 }
 
@@ -67,7 +70,7 @@ void GenerateurParticule::Update(int deltaTime)
 
 	for (int i = 0; i < _nbParticulesMax; ++i)
 	{
-		if (_particles.size() < i + 1)
+		if (_particles.size() <= i)
 		{
 			if (GetNbParticulesActives() < _nbParticulesRestantes && EstActif())
 				AjouterParticule();

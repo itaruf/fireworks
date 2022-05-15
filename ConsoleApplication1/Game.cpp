@@ -124,6 +124,7 @@ void Game::CreerGenerateurParticule(int posX, int posY)
     unsigned seed = myRandomDevice();
     std::default_random_engine myRandomEngine(seed);
 
-    auto generateur{ new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, std::make_unique<Vector>(posX, posY), 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90) };
+    Vector pos{ posX, posY };
+    auto generateur{ new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, pos, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90) };
     _generateurs.emplace_back(generateur);
 }

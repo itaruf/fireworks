@@ -23,7 +23,7 @@ public:
 	SDL_Renderer* _screenRenderer;
 	int _vieMin;
 	int _vieMax;
-	std::unique_ptr<Vector> _position;
+	Vector _position;
 	int _tailleMin;
 	int _tailleMax;
 	int _force;
@@ -32,7 +32,7 @@ public:
 
 	~GenerateurParticule();
 	GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
-		int vieMin, int vieMax, std::unique_ptr<Vector> position, int tailleMin, int tailleMax, int force, int angleMax);
+		int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax);
 
 	bool EstActif();
 	void AjouterParticule();
