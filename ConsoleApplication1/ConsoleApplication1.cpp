@@ -38,11 +38,12 @@ int main(int argc, char* argv[])
 		}
 
 		{
-			Game game{ true, 5, "blanc", 1, renderer.renderer };
+			Game* game{ new Game(true, 5, "blanc", 1, renderer.renderer) };
 
-			if (!game.IsRunning())
+			if (!game->IsRunning())
 			{
-				std::cout << "Game could not be Initialized!" << std::endl;
+				std::cout << "Game could not be Initialized!" << std::endl;				
+				delete game;
 				goto exit;
 			}
 
@@ -50,7 +51,7 @@ int main(int argc, char* argv[])
 
 				SDL_Color color{ 255, 0, 0, 255 };
 
-				while (game.IsRunning())
+				while (game->IsRunning())
 				{
 					int texW{ 0 };
 					int texH{ 0 };
@@ -70,12 +71,14 @@ int main(int argc, char* argv[])
 					SDL_QueryTexture(texture._texture, NULL, NULL, &texW, &texH);
 					SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
-					game.Update(elapsed);
-					game.Render(renderer);
+					game->Update(elapsed);
+					game->Render(renderer);
 					SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
 					SDL_RenderPresent(renderer.renderer);
 					SDL_UpdateWindowSurface(window.window);
 				}
+
+				delete game;
 				goto exit;
 			}
 		}

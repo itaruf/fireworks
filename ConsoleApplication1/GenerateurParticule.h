@@ -14,7 +14,7 @@
 class GenerateurParticule
 {
 public:
-	std::vector<std::unique_ptr<Particule>> _liste;
+	std::vector<Particule*> _particles;
 	int _nbParticulesMax;
 	int _nbParticulesRestantes;
 	int _nbParticulesDebut;
