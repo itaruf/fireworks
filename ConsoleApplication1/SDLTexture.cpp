@@ -37,7 +37,7 @@ SDLTexture SDLTexture::FromSurface(std::shared_ptr<SDL_Renderer> renderer, std::
 	Font* font{ new Font("arial.ttf", 16) };
 
 	SDL_Surface* surfaceMessage{ TTF_RenderText_Blended_Wrapped(font->_font, std::move(message.c_str()), color, 255) };
-	SDL_Texture* texture = SDL_CreateTextureFromSurface(renderer.get(), surfaceMessage);
+	SDL_Texture* texture{ SDL_CreateTextureFromSurface(renderer.get(), surfaceMessage) };
 
 	/*std::cout << texture << std::endl;*/
 

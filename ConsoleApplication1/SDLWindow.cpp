@@ -20,6 +20,6 @@ SDLRenderer SDLWindow::CreateRenderer(Uint32 flags)
 
 SDLRenderer SDLWindow::CreateRenderer(int index, Uint32 flags)
 {
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, index, flags);
+	SDL_Renderer* renderer{ SDL_CreateRenderer(window, index, flags) };
 	return SDLRenderer(renderer);
 }
