@@ -23,9 +23,9 @@ int main(int argc, char* argv[])
 	}
 
 	{
-		SDLRenderer renderer{ window.CreateRenderer(-1, SDL_RENDERER_ACCELERATED) };
+		std::shared_ptr<SDL_Renderer> renderer(SDL_CreateRenderer(window.window, -1, SDL_RENDERER_ACCELERATED), SDL_DestroyRenderer);
 
-		if (!renderer.renderer)
+		if (!renderer)
 		{
 			std::cout << "SDL surface could not be created! SDL_Error: " << SDL_GetError() << std::endl;
 			goto exit;
@@ -38,7 +38,7 @@ int main(int argc, char* argv[])
 		}
 
 		{
-			Game* game{ new Game(true, 5, "blanc", 1, renderer.renderer) };
+			Game* game{ new Game(true, 5, "blanc", 1, renderer) };
 
 			if (!game->IsRunning())
 				std::cout << "Game could not be Initialized!" << std::endl;				
@@ -60,6 +60,7 @@ int main(int argc, char* argv[])
 					SDL_Delay(15); // 60 fps
 
 					Uint32 endTicks{ SDL_GetTicks() };
+
 					int elapsed{ (int)(1.0f / ((endTicks - startTicks) / 1000.0f)) };
 
 					std::string message = std::to_string(elapsed) + " FPS";
@@ -68,9 +69,9 @@ int main(int argc, char* argv[])
 					SDL_Rect fontDstRec{ 0, 0, texW, texH };
 
 					game->Update(elapsed);
-					game->Render(renderer);
-					SDL_RenderCopy(renderer.renderer, texture._texture, NULL, &fontDstRec);
-					SDL_RenderPresent(renderer.renderer);
+					game->Render();
+					SDL_RenderCopy(renderer.get(), texture._texture, NULL, &fontDstRec);
+					SDL_RenderPresent(renderer.get());
 					SDL_UpdateWindowSurface(window.window);
 				}
 			}
@@ -83,6 +84,7 @@ exit:
 	TTF_Quit();
 	SDL_Quit();
 
+	// Laisser le temps de prendre un snapshot
 	Sleep(1000);
 
 	return 0;

@@ -1,7 +1,6 @@
 #include "Particule.h"
 
-Particule::Particule(SDL_Renderer* screenRenderer, std::string _modele, std::string _couleur, int vie, Vector& _position, Vector& _force, int taille, std::shared_ptr<Sprite>& sprite) 
-	: vie{ vie * 1000 }, vieActuelle{ 0 }, _position{ _position }, _force{ _force }, taille{ taille }, sprite{sprite}
+Particule::Particule(std::shared_ptr<SDL_Renderer> screenRenderer, std::string _modele, std::string _couleur, int vie, Vector& _position, Vector& _force, int taille, std::shared_ptr<Sprite>& sprite) : _screenRenderer{ screenRenderer }, vie { vie * 1000 }, vieActuelle{ 0 }, _position{ _position }, _force{ _force }, taille{ taille }, sprite{ sprite }
 {
 }
 
@@ -28,13 +27,13 @@ void Particule::Update(int deltaTime)
 	_position.y = pos.y;
 }
 
-void Particule::Render(SDLRenderer& screenRenderer)
+void Particule::Render()
 {
-	if (!screenRenderer.renderer)
+	if (!_screenRenderer)
 		return;
 
 	unsigned char alpha{ 0 };
 	if (vie > vieActuelle)
 		alpha = (255 * (vie - vieActuelle)) / vie;
-	sprite.get()->Render(screenRenderer.renderer, _position.x, _position.y, taille, taille, alpha);
+	sprite.get()->Render(_screenRenderer, _position.x, _position.y, taille, taille, alpha);
 }

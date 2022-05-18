@@ -4,12 +4,12 @@ GenerateurParticule::~GenerateurParticule()
 {
 	std::cout << "GENERATOR DESTRUCTOR CALLED" << std::endl;
 
-	for (auto particule : _particles)
+	for (auto& particule : _particles)
 		delete particule;
 	_particles.clear();
 }
 
-GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesRestantes, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
+GenerateurParticule::GenerateurParticule(std::shared_ptr<SDL_Renderer> screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesRestantes, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
 	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? nbParticulesDebut++ : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesRestantes ? nbParticulesRestantes : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesRestantes }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
 {
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
@@ -23,7 +23,7 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 	//Create texture from surface pixels
 	else
 	{
-		_sprite = std::make_shared<Sprite>(SDL_CreateTextureFromSurface(screenRenderer, loadedSurface));
+		_sprite = std::make_shared<Sprite>(SDL_CreateTextureFromSurface(screenRenderer.get(), loadedSurface));
 		if (!_sprite)
 			printf("Unable to create texture from %s! SDL Error: %s\n", ("fireworks/" + _modele + "-" + _couleur + ".png").c_str(), SDL_GetError());
 	}
@@ -37,17 +37,21 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 
 void GenerateurParticule::AjouterParticule()
 {
+	std::random_device myRandomDevice;
+	unsigned seed = myRandomDevice();
+	std::default_random_engine myRandomEngine(seed);
+
 	int angle{ 0 };
 	if (_angleMax != 0)
-		angle = rand() % _angleMax;
-	if (rand() % 2 == 1)
+		angle = myRandomEngine() % _angleMax;
+	if (myRandomEngine() % 2 == 1)
 		angle = -angle;
 	int vie{ _vieMin };
 	if (_vieMin != _vieMax)
-		vie = _vieMin + rand() % (_vieMax - _vieMin);
+		vie = _vieMin + myRandomEngine() % (_vieMax - _vieMin);
 	int taille{ _tailleMin };
 	if (_tailleMin != _tailleMax)
-		taille = _tailleMin + rand() % (_tailleMax - _tailleMin);
+		taille = _tailleMin + myRandomEngine() % (_tailleMax - _tailleMin);
 
 	Vector pos{ _position.x, _position.y };
 	Vector force{ static_cast<int>( -_force * sin(angle)), static_cast<int>(_force * cos(angle)) };
@@ -58,10 +62,6 @@ void GenerateurParticule::AjouterParticule()
 
 void GenerateurParticule::Update(int deltaTime)
 {
-	/*std::cout << "restant: " << _nbParticulesRestantes << std::endl;
-	std::cout << "actif: " << GetNbParticulesActives() << std::endl;
-	std::cout << "max: " << _nbParticulesMax << std::endl;*/
-
 	for (int i = 0; i < _nbParticulesMax; ++i)
 	{
 		if (_particles.size() <= i)
@@ -91,9 +91,9 @@ int GenerateurParticule::GetNbParticulesActives()
 	return nb;
 }
 
-void GenerateurParticule::Render(SDLRenderer& screenRenderer)
+void GenerateurParticule::Render()
 {
 	for (const auto& particule : _particles)
 		if (particule)
-			particule->Render(screenRenderer);
+			particule->Render();
 }

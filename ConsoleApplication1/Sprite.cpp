@@ -35,7 +35,7 @@ Sprite::~Sprite()
      SDL_DestroyTexture(_spriteImage);
 }
 
-void Sprite::Render(SDL_Renderer* screenRenderer, int posX, int posY, int width, int height, unsigned char alpha)
+void Sprite::Render(std::shared_ptr<SDL_Renderer> screenRenderer, int posX, int posY, int width, int height, unsigned char alpha)
 {
     if (!screenRenderer)
         return;
@@ -45,11 +45,5 @@ void Sprite::Render(SDL_Renderer* screenRenderer, int posX, int posY, int width,
 
     SDL_SetTextureAlphaMod(_spriteImage, alpha);
     SDL_Rect rect{ posX - (width / 2), posY - (height / 2), width, height };
-    SDL_RenderCopy(screenRenderer, _spriteImage, NULL, &rect);
-}
-
-void Sprite::SetSprite(SDL_Texture* sprite)
-{
-    _spriteImage = sprite;
-    sprite = nullptr;
+    SDL_RenderCopy(screenRenderer.get(), _spriteImage, NULL, &rect);
 }

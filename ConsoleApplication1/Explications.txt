@@ -1,0 +1,23 @@
+Explications en vrac : 
+
+Privilégier : 
+
+- Initializer List dès que possible pour éviter qu'il n'y ait des opérations d'assignement supplémentaires pour l'initialisation de variables
+- ++i au lieu de i++ dans les boucles
+- Ranged-based for loop avec références des objets du conteneur à parcourir
+- std::vector pour notamment les opérations d'insertion / délétions / parcours et sa taille dynamique (emplace_back, erase, ...)
+- Check des pointeurs == nullptr pour sortir prématurément d'un bloc d'instruction et éviter de faire des opérations supplémentaires
+- continue et break pour éviter de faire des opérations supplémentaires
+- Delete tous les pointeurs alloués sur le tas en fin d'utilisation (dans les destructeurs notamment) pour libérer les emplacements mémoires pointés et éviter les memory leaks
+- shared_ptr pour partager l'ownership de certaines variables
+- Inclusion des headers nécessaires dans les .h seulement
+- Passage par référence pour éviter de faire des copies quand on a besoin de changer directement la variable source
+- Object Pooling : allocation d'espaces mémoires pour X objets en amont
+- Inline functions pour des instructions simples (getters/setters)
+- Mouvement pour éviter de faire des copies sachant que les variable sources ne seront plus utilisées par la suite
+- Remplacement de <time.h< par la librairie <random> qui offrent de meilleures options de distributions aléatoires
+- Switch case au lieu de plusieurs if statements les uns après les autres
+- Les precompiled headers pour accélérer la compilation
+
++ Utilisation des outils de débogages / diagnostics (instrumentation, profileur, std::cout << "lol" << std::endl)
++ Beaucoup de ressources (documentations officielles, forums, benchmarks, ...) pour avoir des pistes à tester

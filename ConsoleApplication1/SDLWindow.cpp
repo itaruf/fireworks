@@ -7,7 +7,7 @@ SDLWindow::SDLWindow(std::string&& title, int x, int y, int w, int h, Uint32 fla
 
 SDLWindow::~SDLWindow()
 {
-	std::cout << "Window Destructor Called" << std::endl;
+	/*std::cout << "WINDOW DESTRUCTOR CALLED" << std::endl;*/
 	if (window)
 		SDL_DestroyWindow(window);
 }

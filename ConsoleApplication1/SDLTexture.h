@@ -22,7 +22,7 @@ public:
 	SDLTexture& operator=(const SDLTexture&) = delete;
 	SDLTexture& operator=(SDLTexture&& texture) noexcept;
 
-	static SDLTexture FromSurface(const SDLRenderer& renderer, std::string message, SDL_Color& color);
+	static SDLTexture FromSurface(std::shared_ptr<SDL_Renderer> renderer, std::string message, SDL_Color& color);
 
 	SDL_Texture* _texture;
 };

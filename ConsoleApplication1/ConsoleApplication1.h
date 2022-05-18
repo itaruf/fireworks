@@ -6,7 +6,9 @@
 #include "Game.h"
 #include "SDLWindow.h"
 #include "SDLTexture.h"
+
 #include <windows.h>
+#include <SDL_render.h>
 
 int main(int argc, char* argv[]);
 

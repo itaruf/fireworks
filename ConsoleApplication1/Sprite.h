@@ -9,6 +9,7 @@
 #include <iostream>
 
 struct SDL_Texture;
+struct SDL_Renderer;
 class Sprite
 {
 protected:
@@ -22,13 +23,10 @@ public:
 	Sprite& operator=(const Sprite&) = delete;
 	~Sprite();
 
-	void Render(SDL_Renderer* screenRenderer, int posX, int posY, int width, int height, unsigned char alpha);
+	void Render(std::shared_ptr<SDL_Renderer> screenRenderer, int posX, int posY, int width, int height, unsigned char alpha);
 
 	int GetWidth() const;
 	int GetHeight() const;
-	SDL_Texture* GetSprite();
-	void SetSprite(SDL_Texture* sprite);
-
 };
 
 inline int Sprite::GetWidth() const
@@ -49,12 +47,6 @@ inline int Sprite::GetHeight() const
 	int width, height;
 	SDL_QueryTexture(_spriteImage, NULL, NULL, &width, &height);
 	return height;
-}
-inline SDL_Texture* Sprite::GetSprite()
-{
-	if (_spriteImage)
-		return _spriteImage;
-	return nullptr;
 }
 
 #endif SPRITE_H

@@ -5,10 +5,14 @@
 
 #include "Particule.h"
 
+#include <SDL.h>
+#include <SDL_render.h>
 #include <vector>
 #include <iterator>
 #include <algorithm>
+#include <random>
 
+struct SDL_Renderer;
 class GenerateurParticule
 {
 public:
@@ -18,7 +22,7 @@ public:
 	int _nbParticulesDebut;
 	std::string _modele;
 	std::string _couleur;
-	SDL_Renderer* _screenRenderer;
+	std::shared_ptr<SDL_Renderer> _screenRenderer{ nullptr };
 	int _vieMin;
 	int _vieMax;
 	Vector _position;
@@ -29,14 +33,14 @@ public:
 	std::shared_ptr<Sprite> _sprite{ nullptr };
 
 	~GenerateurParticule();
-	GenerateurParticule(SDL_Renderer* screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
+	GenerateurParticule(std::shared_ptr<SDL_Renderer> screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,
 		int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax);
 
 	bool EstActif();
 	void AjouterParticule();
 	void Update(int deltaTime);
 	int GetNbParticulesActives();
-	void Render(SDLRenderer& screenRenderer);
+	void Render();
 };
 
 inline bool GenerateurParticule::EstActif()

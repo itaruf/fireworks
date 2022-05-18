@@ -2,15 +2,15 @@
 
 Game::~Game()
 {
-    std::cout << "GAME DESTRUCTOR CALLED " << std::endl;
+    /*std::cout << "GAME DESTRUCTOR CALLED " << std::endl;*/
     for (auto& generateur : _generateurs)
         delete generateur;
     _generateurs.clear();
 }
 
-Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SDL_Renderer* screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
+Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, std::shared_ptr<SDL_Renderer> screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
-    std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;
+    /*std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;*/
 
     for (int i = 0; i < _nbGenerateur; ++i)
         _generateurs.emplace_back(nullptr);
@@ -82,9 +82,9 @@ void Game::Update(int deltaTime)
     }
 }
 
-void Game::Render(SDLRenderer& screenRenderer)
+void Game::Render()
 {
-    SDL_RenderClear(screenRenderer.renderer);
+    SDL_RenderClear(_screenRenderer.get());
 
     if (_isRunning)
     {
@@ -96,7 +96,7 @@ void Game::Render(SDLRenderer& screenRenderer)
             if (!generateur->EstActif())
                 continue;
 
-            generateur->Render(screenRenderer);
+            generateur->Render();
         }
     }
 }
