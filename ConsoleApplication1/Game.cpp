@@ -11,7 +11,6 @@ Game::~Game()
 Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, std::shared_ptr<SDL_Renderer> screenRenderer) : _modele{ modele }, _nbGenerateur{ nbGenerateur }, _couleur{ std::move(couleur) }, _isRunning{ isRunning }, _screenRenderer{ screenRenderer }
 {
     /*std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;*/
-
     for (int i = 0; i < _nbGenerateur; ++i)
         _generateurs.emplace_back(nullptr);
 }
@@ -120,7 +119,6 @@ void Game::CreerGenerateurParticule(int posX, int posY)
         }
     }
 
-    std::cout << "Replacing First" << std::endl;
     delete _generateurs[0];
     _generateurs[0] = new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, pos, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90);
 }

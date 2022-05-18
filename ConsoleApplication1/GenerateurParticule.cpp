@@ -2,8 +2,7 @@
 
 GenerateurParticule::~GenerateurParticule()
 {
-	std::cout << "GENERATOR DESTRUCTOR CALLED" << std::endl;
-
+	/*std::cout << "GENERATOR DESTRUCTOR CALLED" << std::endl;*/
 	for (auto& particule : _particles)
 		delete particule;
 	_particles.clear();
@@ -12,7 +11,7 @@ GenerateurParticule::~GenerateurParticule()
 GenerateurParticule::GenerateurParticule(std::shared_ptr<SDL_Renderer> screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesRestantes, std::string modele, std::string couleur, int vieMin, int vieMax, Vector& position, int tailleMin, int tailleMax, int force, int angleMax)
 	: _screenRenderer{ screenRenderer }, _nbParticulesDebut{ nbParticulesDebut == 0 ? nbParticulesDebut++ : nbParticulesDebut},  _nbParticulesMax{ nbParticulesMax > nbParticulesRestantes ? nbParticulesRestantes : nbParticulesMax }, _nbParticulesRestantes{ nbParticulesRestantes }, _modele{ std::move(modele) }, _couleur{ std::move(couleur) }, _vieMin{ vieMin }, _vieMax{ vieMax }, _position{ position }, _tailleMin{ tailleMin }, _tailleMax{ tailleMax }, _force{ force }, _angleMax{ angleMax }
 {
-	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
+	/*std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;*/
 	_particles.reserve(_nbParticulesMax);
 
 	SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };	
