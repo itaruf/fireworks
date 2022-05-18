@@ -13,7 +13,7 @@ struct SDL_Renderer;
 class Sprite
 {
 protected:
-	SDL_Texture* _spriteImage{ nullptr };
+	SDL_Texture* _spriteImage;
 public:
 	Sprite() = delete;
 	Sprite(SDL_Texture* _spriteImage);

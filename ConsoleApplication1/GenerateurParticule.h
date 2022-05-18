@@ -22,7 +22,7 @@ public:
 	int _nbParticulesDebut;
 	std::string _modele;
 	std::string _couleur;
-	std::shared_ptr<SDL_Renderer> _screenRenderer{ nullptr };
+	std::shared_ptr<SDL_Renderer> _screenRenderer;
 	int _vieMin;
 	int _vieMax;
 	Vector _position;
@@ -30,7 +30,7 @@ public:
 	int _tailleMax;
 	int _force;
 	int _angleMax;
-	std::shared_ptr<Sprite> _sprite{ nullptr };
+	std::shared_ptr<Sprite> _sprite;
 
 	~GenerateurParticule();
 	GenerateurParticule(std::shared_ptr<SDL_Renderer> screenRenderer, int nbParticulesDebut, int nbParticulesMax, int nbParticulesTotal, std::string modele, std::string couleur,

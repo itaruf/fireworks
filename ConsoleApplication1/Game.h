@@ -19,10 +19,10 @@ private:
 
     bool _isRunning;
 	int _nbGenerateur;
-	std::vector<GenerateurParticule*> _generateurs{ nullptr };
+	std::vector<GenerateurParticule*> _generateurs;
 	int _modele;
 	std::string _couleur;
-	std::shared_ptr<SDL_Renderer> _screenRenderer{ nullptr };
+	std::shared_ptr<SDL_Renderer> _screenRenderer;
 
 public:
 	Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, std::shared_ptr<SDL_Renderer> screenRenderer);

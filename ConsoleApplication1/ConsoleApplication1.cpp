@@ -23,6 +23,7 @@ int main(int argc, char* argv[])
 	}
 
 	{
+		/*SDLRenderer renderer{ window.CreateRenderer(-1, SDL_RENDERER_ACCELERATED) };*/
 		std::shared_ptr<SDL_Renderer> renderer(SDL_CreateRenderer(window.window, -1, SDL_RENDERER_ACCELERATED), SDL_DestroyRenderer);
 
 		if (!renderer)
