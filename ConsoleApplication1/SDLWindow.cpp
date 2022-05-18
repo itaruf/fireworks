@@ -21,8 +21,5 @@ SDLRenderer SDLWindow::CreateRenderer(Uint32 flags)
 SDLRenderer SDLWindow::CreateRenderer(int index, Uint32 flags)
 {
 	SDL_Renderer* renderer = SDL_CreateRenderer(window, index, flags);
-	if (!renderer)
-		throw std::runtime_error(std::string("failed to create renderer: ") + SDL_GetError());
-
 	return SDLRenderer(renderer);
 }

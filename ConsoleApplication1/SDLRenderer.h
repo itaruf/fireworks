@@ -3,7 +3,6 @@
 #ifndef SDLRENDERER_H
 #define SDLRENDERER_H
 
-//#include "SDLTexture.hpp"
 #include <SDL.h>
 #include <string>
 #include <iostream>

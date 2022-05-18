@@ -2,37 +2,34 @@
 
 Sprite::Sprite(SDL_Texture* spriteImage): _spriteImage(spriteImage)
 {
-    /*std::cout << "DEFAULT CONSTRUCTOR CALLED" << std::endl;*/
-    /*spriteImage = nullptr;
-    delete spriteImage;*/
-   /* std::cout << std::addressof(spriteImage) << std::endl;
-    std::cout << std::addressof(_spriteImage) << std::endl;*/
+    /*std::cout << "SPRITE CONSTRUCTOR CALLED" << std::endl;*/
 }
 
-Sprite::Sprite(Sprite*&& sprite) noexcept
-{
-    std::cout << "SPRITE MOVE CONSTRUCTOR CALLED" << std::endl;
-    _spriteImage = sprite->_spriteImage;
-    SDL_DestroyTexture(sprite->_spriteImage);
-}
+//Sprite::Sprite(Sprite*&& sprite) noexcept
+//{
+//    std::cout << "SPRITE MOVE CONSTRUCTOR CALLED" << std::endl;
+//    _spriteImage = sprite->_spriteImage;
+//    SDL_DestroyTexture(sprite->_spriteImage);
+//}
 
 
-Sprite& Sprite::operator=(Sprite&& other) noexcept
-{
-    std::cout << "SPRITE MOVE ASSIGMENT OPERATOR CALLED" << std::endl;
+//Sprite& Sprite::operator=(Sprite&& other) noexcept
+//{
+//    std::cout << "SPRITE MOVE ASSIGMENT OPERATOR CALLED" << std::endl;
+//
+//    if (this == &other)
+//        return *this;
+//
+//    if (_spriteImage)
+//        SDL_DestroyTexture(_spriteImage);
+//
+//    _spriteImage = other._spriteImage;
+//    other._spriteImage = nullptr;
+//
+//    return *this;
+//
+//}
 
-    if (this == &other)
-        return *this;
-
-    if (_spriteImage)
-        SDL_DestroyTexture(_spriteImage);
-
-    _spriteImage = other._spriteImage;
-    other._spriteImage = nullptr;
-
-    return *this;
-
-}
 Sprite::~Sprite()
 {
      SDL_DestroyTexture(_spriteImage);

@@ -15,9 +15,6 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 	std::cout << "GENERATEUR CONSTRUCTOR CALLED" << std::endl;
 	_particles.reserve(_nbParticulesMax);
 
-	/*std::cout << _nbParticulesDebut << std::endl;
-	std::cout << _nbParticulesMax << std::endl;*/
-
 	SDL_Surface* loadedSurface{ IMG_Load(("fireworks/" + _modele + "-" + _couleur + ".png").c_str()) };	
 
 	if (!loadedSurface)
@@ -36,9 +33,6 @@ GenerateurParticule::GenerateurParticule(SDL_Renderer* screenRenderer, int nbPar
 
 	for (int i = 0; i < _nbParticulesDebut; ++i)
 		AjouterParticule();
-
-	/*std::cout << _particles.size() << std::endl;
-	std::cout << _nbParticulesRestantes << std::endl;*/
 }
 
 void GenerateurParticule::AjouterParticule()

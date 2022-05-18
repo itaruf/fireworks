@@ -17,9 +17,9 @@ public:
 	Sprite() = delete;
 	Sprite(SDL_Texture* _spriteImage);
 	Sprite(const Sprite&) = delete;
-	Sprite(Sprite*&& sprite) noexcept;
+	Sprite(Sprite*&& sprite) = delete;
+	Sprite& operator=(Sprite&& sprite) = delete;
 	Sprite& operator=(const Sprite&) = delete;
-	Sprite& operator=(Sprite&& sprite) noexcept;
 	~Sprite();
 
 	void Render(SDL_Renderer* screenRenderer, int posX, int posY, int width, int height, unsigned char alpha);

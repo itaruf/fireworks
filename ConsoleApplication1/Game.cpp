@@ -3,7 +3,7 @@
 Game::~Game()
 {
     std::cout << "GAME DESTRUCTOR CALLED " << std::endl;
-    for (auto generateur : _generateurs)
+    for (auto& generateur : _generateurs)
         delete generateur;
     _generateurs.clear();
 }
@@ -12,13 +12,8 @@ Game::Game(bool isRunning, int nbGenerateur, std::string couleur, int modele, SD
 {
     std::cout << "GAME CONSTRUCTOR CALLED" << std::endl;
 
-    /*std::cout << screenRenderer << std::endl;
-    std::cout << _screenRenderer << std::endl;*/
-
-    /*std::cout << std::addressof(screenRenderer) << std::endl;
-    std::cout << std::addressof(_screenRenderer) << std::endl;*/
-    /*std::cout << screenRenderer << std::endl;
-    std::cout << _screenRenderer << std::endl;*/
+    for (int i = 0; i < _nbGenerateur; ++i)
+        _generateurs.emplace_back(nullptr);
 }
 
 void Game::Update(int deltaTime)
@@ -72,20 +67,17 @@ void Game::Update(int deltaTime)
         }
     }
 
-    if (_isRunning && _generateurs.size() > 0)
+    if (_isRunning)
     {
-        for (auto generateur : _generateurs)
+        for (auto& generateur : _generateurs)
         {
             if (!generateur)
                 continue;
 
             if (!generateur->EstActif())
-            {
-                _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateur));
-                delete generateur;
-            }
-            else
-                generateur->Update(deltaTime);
+                continue;
+
+            generateur->Update(deltaTime);
         }
     }
 }
@@ -93,10 +85,10 @@ void Game::Update(int deltaTime)
 void Game::Render(SDLRenderer& screenRenderer)
 {
     SDL_RenderClear(screenRenderer.renderer);
-    if (_isRunning && _generateurs.size() > 0)
+
+    if (_isRunning)
     {
-        /*std::cout << _generateurs.size() << std::endl;*/
-        for (auto generateur : _generateurs)
+        for (auto& generateur : _generateurs)
         {
             if (!generateur)
                 continue;
@@ -111,19 +103,24 @@ void Game::Render(SDLRenderer& screenRenderer)
 
 void Game::CreerGenerateurParticule(int posX, int posY)
 {
-    if (_generateurs.size() == _nbGenerateur)
-    {
-        auto generateur{ _generateurs[0] };
-        _generateurs.erase(std::find(_generateurs.begin(), _generateurs.end(), generateur));
-        delete generateur;
-    }
-
     //https://www.gormanalysis.com/blog/random-numbers-in-cpp/
     std::random_device myRandomDevice;
     unsigned seed = myRandomDevice();
     std::default_random_engine myRandomEngine(seed);
 
     Vector pos{ posX, posY };
-    auto generateur{ new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, pos, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90) };
-    _generateurs.emplace_back(generateur);
+
+    for (auto& generateur : _generateurs)
+    {
+        if (!generateur || !generateur->EstActif())
+        {
+            delete generateur;
+            generateur = new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, pos, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90);
+            return;
+        }
+    }
+
+    std::cout << "Replacing First" << std::endl;
+    delete _generateurs[0];
+    _generateurs[0] = new GenerateurParticule(_screenRenderer, myRandomDevice() % 20, 20 + myRandomDevice() % 80, 500 + myRandomDevice() % 2500, "particle" + std::to_string(_modele), _couleur, myRandomDevice() % 5, myRandomDevice() % 15, pos, 16, 64, 100 + myRandomDevice() % 500, myRandomDevice() % 90);
 }
