@@ -1,7 +1,5 @@
 Explications en vrac : 
 
-Privilégier : 
-
 - Initializer List dès que possible pour éviter qu'il n'y ait des opérations d'assignement supplémentaires pour l'initialisation de variables
 - ++i au lieu de i++ dans les boucles
 - Ranged-based for loop avec références des objets du conteneur à parcourir

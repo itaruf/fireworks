@@ -18,8 +18,8 @@ class Particule
 public:
 	Vector _position;
 	Vector _force;
-	std::shared_ptr<SDL_Renderer> _screenRenderer;
-	std::shared_ptr<Sprite> sprite;
+	std::shared_ptr<SDL_Renderer> _screenRenderer{ nullptr };
+	std::shared_ptr<Sprite> sprite{ nullptr };
 	int vie;
 	int taille;
 	int vieActuelle;

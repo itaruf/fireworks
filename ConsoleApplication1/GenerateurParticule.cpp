@@ -64,7 +64,7 @@ void GenerateurParticule::Update(int deltaTime)
 {
 	for (int i = 0; i < _nbParticulesMax; ++i)
 	{
-		if (_particles.size() <= i)
+		if ((int)_particles.size() <= i)
 		{
 			if (GetNbParticulesActives() < _nbParticulesRestantes && EstActif())
 				AjouterParticule();
