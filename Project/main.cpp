@@ -1,4 +1,4 @@
-#include "ConsoleApplication1.h"
+#include "main.h"
 
 //Screen dimension constants
 int main(int argc, char* argv[])
