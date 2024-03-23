@@ -1,2 +1,2 @@
 Content/** filter=lfs diff=lfs merge=lfs -text
-*.c linguist-detectable=false
+*.c linguist-language=C++
